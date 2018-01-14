@@ -1,0 +1,1016 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>AZ</title>
+  
+  <subtitle>Apollonian Blog</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://ApolloZhu.github.io/"/>
+  <updated>2018-01-14T05:28:52.795Z</updated>
+  <id>https://ApolloZhu.github.io/</id>
+  
+  <author>
+    <name>Apollo Zhu</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>令人脸扁的 macOS 程序图标替换</title>
+    <link href="https://ApolloZhu.github.io/2017/12/07/mac-app-icon/"/>
+    <id>https://ApolloZhu.github.io/2017/12/07/mac-app-icon/</id>
+    <published>2017-12-07T18:30:13.000Z</published>
+    <updated>2018-01-14T05:28:52.795Z</updated>
+    
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>毕竟是亲儿子，用 Swift 实现运行时替换程序图标，是舒服得脸扁；不过用 Java 实现，那可是恼火得脸扁。</p><a id="more"></a><h2 id="如果你用-Swift"><a href="#如果你用-Swift" class="headerlink" title="如果你用 Swift"></a>如果你用 Swift</h2><p>用 Swift 在 macOS 上把图标替换为另一张图片：</p><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="type">NSApp</span>.applicationIconImage = #imageLiteral(resourceName: <span class="string">"图标的名字.png"</span>)</div></pre></td></tr></table></figure><p>如果要设置为 <code>NSView</code> 的话，可以用下面的方法：</p><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 如果有需要可以获得图标的大小：</span></div><div class="line"><span class="keyword">let</span> size = <span class="type">NSApp</span>.dockTile.size</div><div class="line"><span class="type">NSApp</span>.dockTile.contentView = &lt;#<span class="type">T</span>##作为图标的 <span class="type">NSView</span>##<span class="type">NSView</span>#&gt;</div><div class="line"><span class="type">NSApp</span>.dockTile.display()</div></pre></td></tr></table></figure><div class="note primary"><p><code>&lt;##&gt;</code> 是 Xcode 使用的占位符的格式，大家可以尝试下。 </p></div><h2 id="如果你用-Java"><a href="#如果你用-Java" class="headerlink" title="如果你用 Java"></a>如果你用 Java</h2><p>你可能会说为什么不用 <code>JFrame::setIconImage</code> 或者 <code>add</code> 到 JavaFX 的 <code>Stage.getIcons()</code> 里——naïve。虽然他们不考虑 Mac，但我们为他们着想，在 Java 彻底提出解决方案之前，为了兼容其他平台，我们使用反射实现：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">    Class NSApplication = Class.forName(<span class="string">"com.apple.eawt.Application"</span>);</div><div class="line">    Method sharedApplication = NSApplication.getMethod(<span class="string">"getApplication"</span>);</div><div class="line">    Object shared = sharedApplication.invoke(NSApplication);</div><div class="line">    Method setApplicationIconImage = NSApplication.getMethod(<span class="string">"setDockIconImage"</span>, java.awt.Image.class);</div><div class="line">    setApplicationIconImage.invoke(shared, <span class="comment">/*作为图标的  Image*/</span>);</div><div class="line">&#125; <span class="keyword">catch</span> (Throwable ignored) &#123; &#125;</div></pre></td></tr></table></figure><p>虽然错的明明是他们，但上面提到的方法在 Java 9 （没事干不要用 Java 9）下还是会被警告的，因为<a href="http://openjdk.java.net/jeps/272" target="_blank" rel="noopener">之后会有解决方案</a>。顺便提一句，虽然因为上面的例子肯定要 try-catch 所以没有必要，但可以这样判断是 Mac 系统：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">System.getProperty(<span class="string">"os.name"</span>).toLowerCase().contains(<span class="string">"mac"</span>)</div></pre></td></tr></table></figure><hr><p>有哪里写错了记得让我同时更新 <a href="https://www.bilibili.com/read/mobile/99301" target="_blank" rel="noopener">B 站 cv99301</a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;毕竟是亲儿子，用 Swift 实现运行时替换程序图标，是舒服得脸扁；不过用 Java 实现，那可是恼火得脸扁。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="编程" scheme="https://ApolloZhu.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>LeetCode - 2. Add Two Numbers</title>
+    <link href="https://ApolloZhu.github.io/2017/11/01/leetcode-add-two-numbers/"/>
+    <id>https://ApolloZhu.github.io/2017/11/01/leetcode-add-two-numbers/</id>
+    <published>2017-11-01T00:10:40.000Z</published>
+    <updated>2018-01-14T05:28:52.795Z</updated>
+    
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>本来说 LeetCode 准备全用 Swift，（这道题正常做法 Swift 也行，详见正确答案），但是想偷懒，这个时候只有靠 python 这种适合大数据的才行，毕竟这道题的本质是把两个数相加。</p><a id="more"></a><blockquote><p>You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.</p><p>You may assume the two numbers do not contain any leading zero, except the number 0 itself.</p><p>Input: (2 -&gt; 4 -&gt; 3) + (5 -&gt; 6 -&gt; 4)<br>Output: 7 -&gt; 0 -&gt; 8</p></blockquote><p>实际上这就是计算 <code>342 + 465 = 807</code>，每个数字分别是倒着写的。所以先 <code>toInt</code> 递归把链表转换成整数，然后 <code>toListNode</code> 把整数转回链表。但这种不负责任的写法 Swift 会溢出，于是换了 python。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">toInt = <span class="keyword">lambda</span> l: l <span class="keyword">and</span> toInt(l.next) * <span class="number">10</span> + l.val <span class="keyword">or</span> <span class="number">0</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">toListNode</span><span class="params">(i)</span>:</span></div><div class="line">    base = <span class="keyword">None</span></div><div class="line">    <span class="keyword">for</span> c <span class="keyword">in</span> str(i):</div><div class="line">        new = ListNode(int(c))</div><div class="line">        new.next = base</div><div class="line">        base = new</div><div class="line">    <span class="keyword">return</span> base</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">addTwoNumbers</span><span class="params">(self, l1, l2)</span>:</span></div><div class="line">        <span class="keyword">return</span> toListNode(toInt(l1)+toInt(l2))</div></pre></td></tr></table></figure><p><code>toListNode</code> 里转字符串完全是不得已而为。我一开始（也是 <a href="https://discuss.leetcode.com/topic/14575/python-for-the-win" target="_blank" rel="noopener">StefanPochmann</a>）用的方法是这样的：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">toListNode</span><span class="params">(i)</span>:</span></div><div class="line">    this = ListNode(i % <span class="number">10</span>)</div><div class="line">    <span class="keyword">if</span> n &gt; <span class="number">9</span>:</div><div class="line">        this.next = toListNode(i / <span class="number">10</span>)</div><div class="line">    <span class="keyword">return</span> this</div></pre></td></tr></table></figure></p><p>有些蹊跷的是，在数字够大的时候，会和正确结果有些出入。原因不明，难不成是除法带来的浮点误差？</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;本来说 LeetCode 准备全用 Swift，（这道题正常做法 Swift 也行，详见正确答案），但是想偷懒，这个时候只有靠 python 这种适合大数据的才行，毕竟这道题的本质是把两个数相加。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="编程" scheme="https://ApolloZhu.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="algorithm" scheme="https://ApolloZhu.github.io/tags/algorithm/"/>
+    
+      <category term="python" scheme="https://ApolloZhu.github.io/tags/python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>在 Windows 10 上跑 Swift</title>
+    <link href="https://ApolloZhu.github.io/2017/09/22/swift-on-win-10/"/>
+    <id>https://ApolloZhu.github.io/2017/09/22/swift-on-win-10/</id>
+    <published>2017-09-22T14:50:26.000Z</published>
+    <updated>2018-01-14T05:28:52.795Z</updated>
+    
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>抛开大多数连 Swift 是什么都没有听说过的人，知道 Swift 的人大多都觉得它只能用于 iOS 开发，其实不然。Swift 在 15 年底就支持了 Windows 和 Android，不过因为编译过程过于复杂，所以没有掀起太大的涟漪；反倒是 2017 年夏天的时候微软宣布把 Ubuntu 搬进 Windows 让 Swift 有了大显身手的机会。</p><a id="more"></a><h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>Windows Subsystem for Linux (WSL) 是这一切的基础，所以我们需要在 Windows 10 上安装 Ubuntu，然后用 bash 安装 Swift 编译器。可惜的是 WSL 并不支持 Swift 的交互式解释器（REPL），尽管如此缺依然要求你有 <strong>版本 1607 及以上 的 64 位 Windows 10</strong>（可以在 <em>设置 &gt; 系统 &gt; 关于</em> 中查看）。</p><h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><p>我们先要启用适用于 Linux 的 Windows 子系统。以 <strong>管理员</strong> 身份运行 Powershell，输入以下内容。完成后按 <code>Y</code> 重启电脑。</p><figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux</div></pre></td></tr></table></figure><p>或者可以在 <em>控制面板 &gt; 程序 &gt; 启用或关闭 Windows 功能</em> 中，勾选“适用于 Linux 的 Windows 子系统(Beta)”，然后点确定。根据提示重启。</p><p>重启以后，启用开发人员模式。以 <strong>管理员</strong> 身份运行 Powershell，输入以下内容：</p><figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">reg add <span class="string">"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock"</span> /t REG_DWORD /f /v <span class="string">"AllowDevelopmentWithoutDevLicense"</span> /d <span class="string">"1"</span></div></pre></td></tr></table></figure><p>或者可以在 <em>设置 &gt; 更新和安全 &gt; 针对开发人员</em> 中，选择 “开发人员模式”</p><p>最后安装 Ubuntu，建议用 <strong><em>非</em>管理员</strong> 模式运行 Powershell，输入以下内容。完成安装之后，输入 <code>bash</code> 进入 Ubuntu 系统。</p><figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">lxrun /install /y</div></pre></td></tr></table></figure><p>以上方法是懒人配置，如果想自定义，请输入 <code>bash</code>，然后根据提示配置。</p><p>最后安装 Swift。为了简化步骤，借鉴了喵神借鉴 Vapor 来的代码，稍微修改后做了个自动安装的脚本。输入：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">eval</span> <span class="string">"<span class="variable">$(curl -sL https://raw.githubusercontent.com/ApolloZhu/script/master/swift/install/4)</span>"</span></div></pre></td></tr></table></figure><p>看到“✅ Done”，下一行写着 Swift 版本号的话，那就大功告成了！如果想自定义安装步骤，可以把上面的 <a href="https://github.com/ApolloZhu/script/blob/master/swift/install/4" target="_blank" rel="noopener">bash 脚本</a>稍微改改。</p><h2 id="接下来呢？"><a href="#接下来呢？" class="headerlink" title="接下来呢？"></a>接下来呢？</h2><p>因为不支持 REPL，所以只有写好了程序再编译。怎么才能写程序？ <del>写程序是不可能的，这辈子都不可能写程序的</del> 因为 Ubuntu 是 Windows 的子系统，所以文件是两边都可以访问的，也就是你可以在 Windows 上把程序写好了，再在 Ubuntu 里运行。不过没了 Xcode，你们用什么编辑器就都随意吧。</p><p>玩腻了要卸载 Ubuntu？执行命令</p><figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">lxrun /uninstall /full /y</div></pre></td></tr></table></figure><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul><li><a href="https://github.com/apple/swift/blob/master/lib/Basic/LangOptions.cpp" target="_blank" rel="noopener">Swift 支持的平台</a></li><li><a href="https://msdn.microsoft.com/en-gb/commandline/wsl/install_guide" target="_blank" rel="noopener">WSL 安装</a></li><li><a href="https://github.com/Microsoft/BashOnWindows/issues/688" target="_blank" rel="noopener">暂不支持 Swift 交互式解释器</a></li><li>本文在 B 站 <a href="https://www.bilibili.com/read/mobile/18127" target="_blank" rel="noopener">cv18127</a></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;抛开大多数连 Swift 是什么都没有听说过的人，知道 Swift 的人大多都觉得它只能用于 iOS 开发，其实不然。Swift 在 15 年底就支持了 Windows 和 Android，不过因为编译过程过于复杂，所以没有掀起太大的涟漪；反倒是 2017 年夏天的时候微软宣布把 Ubuntu 搬进 Windows 让 Swift 有了大显身手的机会。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="瞎捣鼓" scheme="https://ApolloZhu.github.io/categories/%E7%9E%8E%E6%8D%A3%E9%BC%93/"/>
+    
+    
+      <category term="Swift" scheme="https://ApolloZhu.github.io/tags/Swift/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Explosive AP Chemistry Survey</title>
+    <link href="https://ApolloZhu.github.io/2017/08/30/ap-chem-survey/"/>
+    <id>https://ApolloZhu.github.io/2017/08/30/ap-chem-survey/</id>
+    <published>2017-08-30T22:08:28.000Z</published>
+    <updated>2018-01-14T05:28:52.791Z</updated>
+    
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p><img src="https://user-images.githubusercontent.com/10842684/29992768-89b5b8d2-8f71-11e7-99db-116541df381a.png" alt="Finish the prompt: When I think about AP Chemistry, I am excited about... Explosion! Finish the second prompt: When I think about AP Chemistry, I worry that... It actually explodes."></p><p><a href="http://konosuba.com/" target="_blank" rel="noopener"><img src="https://pa1.narvii.com/6354/bd84d66c323ce1eb9a4612b792c0dbba7b72a8b9_hq.gif" alt="Explosion!"></a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;script src=&quot;/assets/js/APlayer.min.js&quot;&gt; &lt;/script&gt;&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/10842684/29992768-89b5b8d2-8f71-11e
+      
+    
+    </summary>
+    
+      <category term="生活" scheme="https://ApolloZhu.github.io/categories/%E7%94%9F%E6%B4%BB/"/>
+    
+    
+      <category term="English" scheme="https://ApolloZhu.github.io/tags/English/"/>
+    
+      <category term="anime" scheme="https://ApolloZhu.github.io/tags/anime/"/>
+    
+      <category term="chemistry" scheme="https://ApolloZhu.github.io/tags/chemistry/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>A 1000 Times</title>
+    <link href="https://ApolloZhu.github.io/2017/08/30/a-1000-times/"/>
+    <id>https://ApolloZhu.github.io/2017/08/30/a-1000-times/</id>
+    <published>2017-08-30T06:37:09.000Z</published>
+    <updated>2018-01-14T05:28:52.791Z</updated>
+    
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>AP Language &amp; Composition 第一节课要求赏析歌词，感觉就像看到了现在/未来的自己。</p><blockquote class="blockquote-center"><p>I had a dream that you were mine<br>I’ve had that dream a thousand times</p></blockquote><div id="aplayer0" class="aplayer" style="margin-bottom: 20px;"></div><script>var ap = new APlayer({element: document.getElementById("aplayer0"),narrow: false,autoplay: false,showlrc: 0,music: {title: "A 1000 Times",author: "Hamilton Leithauser & Rostam",url: "https://audio-ssl.itunes.apple.com/apple-assets-us-std-000001/AudioPreview30/v4/12/71/8a/12718a43-882f-73db-a342-62c282f077b5/mzaf_2220230511207383840.plus.aac.ep.m4a",pic: "https://is4-ssl.mzstatic.com/image/thumb/Music60/v4/49/19/87/49198776-b362-8b86-d1ee-26f9e17af293/source/268x0w.jpg",}});window.aplayers || (window.aplayers = []);window.aplayers.push(ap);</script>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;script src=&quot;/assets/js/APlayer.min.js&quot;&gt; &lt;/script&gt;&lt;p&gt;AP Language &amp;amp; Composition 第一节课要求赏析歌词，感觉就像看到了现在/未来的自己。&lt;/p&gt;
+&lt;blockquote class=&quot;blockq
+      
+    
+    </summary>
+    
+      <category term="摘录" scheme="https://ApolloZhu.github.io/categories/%E6%91%98%E5%BD%95/"/>
+    
+    
+      <category term="music" scheme="https://ApolloZhu.github.io/tags/music/"/>
+    
+      <category term="literature" scheme="https://ApolloZhu.github.io/tags/literature/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>到底放引号里面还是外面？</title>
+    <link href="https://ApolloZhu.github.io/2017/08/28/punctuated-quote/"/>
+    <id>https://ApolloZhu.github.io/2017/08/28/punctuated-quote/</id>
+    <published>2017-08-28T18:52:26.000Z</published>
+    <updated>2018-01-14T05:28:52.795Z</updated>
+    
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>暑假上 SAT 的时候老师没有想明白分号到底是放引号内还是外，今天算是找到了一个科学的解释：</p><a id="more"></a><table><thead><tr><th style="text-align:center">情景</th><th style="text-align:center">美式标准</th></tr></thead><tbody><tr><td style="text-align:center">引用内容</td><td style="text-align:center">双引号</td></tr><tr><td style="text-align:center">在引用内容内引用</td><td style="text-align:center">单引号</td></tr><tr><td style="text-align:center">逗号和句号</td><td style="text-align:center">总是在引号内</td></tr><tr><td style="text-align:center">其他标点（冒号、分号、问号等）</td><td style="text-align:center">如为引用内容则放引号内，否则一律放引号外</td></tr></tbody></table><blockquote><p>以上节选翻译自：<a href="http://blog.apastyle.org/apastyle/2011/08/punctuating-around-quotation-marks.html" target="_blank" rel="noopener">APA Style Blog: Punctuating Around Quotation Marks</a></p></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;暑假上 SAT 的时候老师没有想明白分号到底是放引号内还是外，今天算是找到了一个科学的解释：&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="摘录" scheme="https://ApolloZhu.github.io/categories/%E6%91%98%E5%BD%95/"/>
+    
+    
+      <category term="tips" scheme="https://ApolloZhu.github.io/tags/tips/"/>
+    
+      <category term="literature" scheme="https://ApolloZhu.github.io/tags/literature/"/>
+    
+      <category term="translation" scheme="https://ApolloZhu.github.io/tags/translation/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Advanced CS Student Survey</title>
+    <link href="https://ApolloZhu.github.io/2017/08/25/apcsab-survey/"/>
+    <id>https://ApolloZhu.github.io/2017/08/25/apcsab-survey/</id>
+    <published>2017-08-25T20:52:17.000Z</published>
+    <updated>2018-01-14T05:28:52.791Z</updated>
+    
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><blockquote><p>Dear Advanced APCS students,</p><p>In order to provide an excellent learning environment for you in this coming school year, I would like you to help me answer the following questions, be as specific and detailed as possible, so that I can do a better job in terms of fulfilling your needs.  Thank you for your time.</p><footer><strong>Mr. Lau</strong></footer></blockquote><a id="more"></a><h2 id="Why-did-you-sign-up-to-take-this-course-Be-specific"><a href="#Why-did-you-sign-up-to-take-this-course-Be-specific" class="headerlink" title="Why did you sign up to take this course?  Be specific."></a>Why did you sign up to take this course?  Be specific.</h2><p>Just interested; to learn.</p><h2 id="What-do-you-expect-to-learn-from-this-course-If-you-know-nothing-about-the-curriculum-just-brainstorm-by-yourself-and-tell-me-something-that-you-want-to-learn"><a href="#What-do-you-expect-to-learn-from-this-course-If-you-know-nothing-about-the-curriculum-just-brainstorm-by-yourself-and-tell-me-something-that-you-want-to-learn" class="headerlink" title="What do you expect to learn from this course?  If you know nothing about the curriculum, just brainstorm by yourself and tell me something that you want to learn."></a>What do you expect to learn from this course?  If you know nothing about the curriculum, just brainstorm by yourself and tell me something that you want to learn.</h2><p>Fully understand Big-O notation. Basic algorithms and data structures, and when/why to choose one over another.</p><h2 id="What-did-you-do-over-the-summer-that-is-related-to-computing-summer-camp-internship-self-learning-taking-an-online-course-teaching-other-people-Please-tell-me-what-you-learned-through-this-experience-Be-as-specific-as-possible"><a href="#What-did-you-do-over-the-summer-that-is-related-to-computing-summer-camp-internship-self-learning-taking-an-online-course-teaching-other-people-Please-tell-me-what-you-learned-through-this-experience-Be-as-specific-as-possible" class="headerlink" title="What did you do over the summer that is related to computing (summer camp, internship, self-learning, taking an online course, teaching other people)?  Please tell me what you learned through this experience.  Be as specific as possible."></a>What did you do over the summer that is related to computing (summer camp, internship, self-learning, taking an online course, teaching other people)?  Please tell me what you learned through this experience.  Be as specific as possible.</h2><p>Mainly translating Stanford’s Developing iOS 10 Apps with Swift; read The Swift Programming Language (Beta). Wrote an app to post the translated subtitle to online video platform, practiced using recursion, HTTP request, async background queue, and Continuous Integration.</p><p>Wrote a raffle app in Kotlin (Google’s new programming language for Android, basically Java), refreshed memory of Swing, learned a little about JavaFX.</p><p>Read part of the K&amp;R (The C Programming Language).<br>Watched a short series of basic tutorials about HTML &amp; CSS.<br>Watched How GitHub uses GitHub series. Learned several git commands.</p><h2 id="Please-check-those-topics-that-you-know-something-about-Tell-me-something-about-each-if-possible"><a href="#Please-check-those-topics-that-you-know-something-about-Tell-me-something-about-each-if-possible" class="headerlink" title="Please check those topics that you know something about.  Tell me something about each if possible."></a>Please check those topics that you know something about.  Tell me something about each if possible.</h2><ul><li style="list-style: none"><input type="checkbox" checked> Linked List: Holding a pointer to the previous/next Element. Easier to add/remove, harder to find index.</li><li style="list-style: none"><input type="checkbox" checked> Recursion: Using itself in the definition of itself. Throws StackOverFlowException.</li><li style="list-style: none"><input type="checkbox"> Big-O notation</li><li style="list-style: none"><input type="checkbox" checked> Stack: First (push) In, Last (pop) Out. How I deal with recursive methods.</li><li style="list-style: none"><input type="checkbox" checked> Queue: FIFO.</li><li style="list-style: none"><input type="checkbox" checked> Priority Queue: Queue, elements ordered by priority.</li><li style="list-style: none"><input type="checkbox" checked> Hash Table: AKA Dictionary<k: anyhashable,="" v:="" anyobject="">, mapping Key to Value.</k:></li><li style="list-style: none"><input type="checkbox"> Heap</li><li style="list-style: none"><input type="checkbox" checked> Tree: Nodes. May traverse in Pre/In/Post order (if should visit root first).</li><li style="list-style: none"><input type="checkbox" checked> Binary Search Tree: Each node has max 2 child, with left &lt; this &lt; right, and each child is BST</li><li style="list-style: none"><input type="checkbox" checked> Graph: (Un)directed edges connecting vertices.</li><li style="list-style: none"><input type="checkbox"> Depth first search</li><li style="list-style: none"><input type="checkbox"> Breadth first search</li><li style="list-style: none"><input type="checkbox"> Quicksort (and basically all other sorting algorithms)</li></ul><h2 id="Your-concerns-about-this-course-Be-specific-and-honest-Write-as-much-as-necessary"><a href="#Your-concerns-about-this-course-Be-specific-and-honest-Write-as-much-as-necessary" class="headerlink" title="Your concerns about this course.  Be specific and honest.  Write as much as necessary!"></a>Your concerns about this course.  Be specific and honest.  Write as much as necessary!</h2><p>Big-O notation sounds/is quite confusing, it took me a long time to understand why merge sort is <code>O(nlogn)</code>.</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;&lt;p&gt;Dear Advanced APCS students,&lt;/p&gt;
+&lt;p&gt;In order to provide an excellent learning environment for you in this coming school year, I would like you to help me answer the following questions, be as specific and detailed as possible, so that I can do a better job in terms of fulfilling your needs.  Thank you for your time.&lt;/p&gt;
+&lt;footer&gt;&lt;strong&gt;Mr. Lau&lt;/strong&gt;&lt;/footer&gt;&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="生活" scheme="https://ApolloZhu.github.io/categories/%E7%94%9F%E6%B4%BB/"/>
+    
+    
+      <category term="English" scheme="https://ApolloZhu.github.io/tags/English/"/>
+    
+      <category term="Java" scheme="https://ApolloZhu.github.io/tags/Java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>「貴方のことが好きです。私と付き合ってください！」</title>
+    <link href="https://ApolloZhu.github.io/2017/08/24/bilibili-kiminonawa/"/>
+    <id>https://ApolloZhu.github.io/2017/08/24/bilibili-kiminonawa/</id>
+    <published>2017-08-24T08:01:25.000Z</published>
+    <updated>2018-01-14T05:28:52.791Z</updated>
+    
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><div class="note success"><p>求点赞！请在登陆 B 站账号的浏览器打开：<a href="https://www.bilibili.com/activity/likes/like/10156?oid=2127098" target="_blank" rel="noopener">https://www.bilibili.com/activity/likes/like/10156?oid=2127098</a>，谢谢！</p></div><span itemprop="image" itemscope="" itemtype="http://schema.org/ImageObject"><img itemprop="url image" src="https://user-images.githubusercontent.com/10842684/29665442-108631e2-88a2-11e7-9bab-0fb1e88119b3.png" class="full-image" alt="二次元是你的，离开的也是你。纵然我接受秒速五厘米的结局，可否让我不忘却你的名字？" title="我的告白"><meta itemprop="width" content="auto"><meta itemprop="height" content="auto"></span><a id="more"></a><p>话说这次 Bilibili 蹭《你的名字。》这个热点的 <a href="https://www.bilibili.com/blackboard/topic/activity-yourname1708.html" target="_blank" rel="noopener">活动</a> 好像慢了一拍吧……</p><blockquote><p>标题大意为“我很喜欢你，请和我交往吧！”，摘自：</p></blockquote><p><a href="https://www.zhihu.com/publications/book/19552101" target="_blank" style="position:relative;text-decoration:none;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;margin-top:16px;margin-bottom:16px;cursor:pointer;border:1px solid #e7eaf1;border-radius:4px;box-shadow: 0 1px 3px 0 rgba(0,34,77,.05);"><img src="https://pic2.zhimg.com/c0295ae7b42a2396a81f7f18cfc788e5_200x0.jpg" style="border:none;padding:0;-ms-flex-negative:0;flex-shrink:0;width:90px;height: 90px;-o-object-fit:cover;object-fit:cover;"><span style="display:-webkit-box;display:-ms-flexbox;display:flex;width:100%;padding:10px 16px;overflow:hidden;-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;-ms-flex-pack:distribute;justify-content:space-around;"><span style="font-size:18px;font-weight:400;">《日本有意思》作者：Nina Rong</span><span style="overflow:hidden;font-size:15px;color:#8798ae;text-overflow:ellipsis;word-wrap:normal;white-space:nowrap;">www.zhihu.com<span style="display:inline-block;padding:1px 6px;margin-left:8px;font-size:12px;line-height:normal;color:#8590a6;vertical-align:1px;background-color:#f7f8fa;border-radius:3px;">电子书</span></span></span></a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;div class=&quot;note success&quot;&gt;&lt;p&gt;求点赞！请在登陆 B 站账号的浏览器打开：&lt;a href=&quot;https://www.bilibili.com/activity/likes/like/10156?oid=2127098&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://www.bilibili.com/activity/likes/like/10156?oid=2127098&lt;/a&gt;，谢谢！&lt;/p&gt;&lt;/div&gt;
+&lt;span itemprop=&quot;image&quot; itemscope=&quot;&quot; itemtype=&quot;http://schema.org/ImageObject&quot;&gt;&lt;img itemprop=&quot;url image&quot; src=&quot;https://user-images.githubusercontent.com/10842684/29665442-108631e2-88a2-11e7-9bab-0fb1e88119b3.png&quot; class=&quot;full-image&quot; alt=&quot;二次元是你的，离开的也是你。纵然我接受秒速五厘米的结局，可否让我不忘却你的名字？&quot; title=&quot;我的告白&quot;&gt;&lt;meta itemprop=&quot;width&quot; content=&quot;auto&quot;&gt;&lt;meta itemprop=&quot;height&quot; content=&quot;auto&quot;&gt;&lt;/span&gt;
+    
+    </summary>
+    
+      <category term="摘录" scheme="https://ApolloZhu.github.io/categories/%E6%91%98%E5%BD%95/"/>
+    
+    
+      <category term="anime" scheme="https://ApolloZhu.github.io/tags/anime/"/>
+    
+      <category term="bilibili" scheme="https://ApolloZhu.github.io/tags/bilibili/"/>
+    
+      <category term="zhihu" scheme="https://ApolloZhu.github.io/tags/zhihu/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>GitHub&#39;s Swift Style Guide</title>
+    <link href="https://ApolloZhu.github.io/2017/08/23/github-swift-style-guide-irony/"/>
+    <id>https://ApolloZhu.github.io/2017/08/23/github-swift-style-guide-irony/</id>
+    <published>2017-08-23T21:02:25.000Z</published>
+    <updated>2018-01-14T05:28:52.795Z</updated>
+    
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p><a href="https://zhuanlan.zhihu.com/p/28767790" target="_blank" rel="noopener">中文版本</a></p><p>When I was cleaning up my GitHub repos and stars, I found <a href="https://github.com/github/swift-style-guide" target="_blank" rel="noopener">GitHub’s style guide for Swift</a>, and I find this 2nd most starred style guide quite amusing.</p><a id="more"></a><p>Despite the fact that Xcode defaults to using 4 spaces for indentation (and we can clearly see the impact by checking <a href="https://ukupat.github.io/tabs-or-spaces/" target="_blank" rel="noopener">tabs-or-spaces</a>), the style guide suggests using tabs instead. I’m totally fine with that, but I can easily tell there are some disagreements among the contributors:</p><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> myGreatProperty: <span class="type">Int</span> &#123;</div><div class="line"><span class="keyword">return</span> <span class="number">4</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">subscript</span>(index: <span class="type">Int</span>) -&gt; <span class="type">T</span> &#123;</div><div class="line">    <span class="keyword">return</span> objects[index]</div><div class="line">&#125;</div></pre></td></tr></table></figure><p>But there’s more. For now (2017 Auguest 23), there are three <a href="https://github.com/github?language=swift" target="_blank" rel="noopener">Swift repos</a> under GitHub’s <a href="https://github.com/github" target="_blank" rel="noopener">main account</a> – one source, two forks. Well, then let’s focus on <a href="https://github.com/github/SoftU2F" target="_blank" rel="noopener">SoftU2F</a>, the ONLY Swift repository GitHub actually owns. Isn’t it natural for me to expect this repo to follow GitHub’s own style guide? But ironically, even SoftU2F is <strong><em>NOT</em></strong> doing that!</p><p><img src="https://octodex.github.com/images/front-end-conftocat.png" alt="The Front-End Conftocat on GitHub Octoex"></p><p>In conclusion, seems that GitHub is not interested in styling their Swift code, and thus the GitHub community (or at least the 4k stargazers) has no actual intention to follow GitHub’s style guide, too.</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/28767790&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;中文版本&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;When I was cleaning up my GitHub repos and stars, I found &lt;a href=&quot;https://github.com/github/swift-style-guide&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;GitHub’s style guide for Swift&lt;/a&gt;, and I find this 2nd most starred style guide quite amusing.&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="生活" scheme="https://ApolloZhu.github.io/categories/%E7%94%9F%E6%B4%BB/"/>
+    
+    
+      <category term="Swift" scheme="https://ApolloZhu.github.io/tags/Swift/"/>
+    
+      <category term="English" scheme="https://ApolloZhu.github.io/tags/English/"/>
+    
+      <category term="git" scheme="https://ApolloZhu.github.io/tags/git/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CUL8TR, Ben</title>
+    <link href="https://ApolloZhu.github.io/2017/08/21/cul8tr-ben/"/>
+    <id>https://ApolloZhu.github.io/2017/08/21/cul8tr-ben/</id>
+    <published>2017-08-21T13:00:45.000Z</published>
+    <updated>2018-01-14T05:28:52.791Z</updated>
+    
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>摩尔门教的同学 <a href="https://github.com/bencullenn" target="_blank" rel="noopener">Ben Cullen</a> 高中毕业了，需要去服务两年再去考上的大学，所以昨天下午在家举行 Farewell Open House。</p><a id="more"></a><p>虽然是同校，但我是在 <a href="https://hacktj.org/" target="_blank" rel="noopener">HackTJ</a> 上才遇到他的。当时我们组一直在纠结做什么，最后定下点子之后也是在摸鱼，略有些无聊，我一个人出去溜达一圈。转悠的时候发现社长所在的组用的是 Swift，于是我就这么中途“叛变”了。当时时间紧，做的 <a href="https://github.com/bencullenn/HackYourHealthHackTJ" target="_blank" rel="noopener">HackYourHealth</a> 只能说是差点得奖（评奖前又把我们叫过去审了一遍），不过借此机会认识了 Ben，之后偶尔有些交流。</p><p>因为各种原因这是我第一次去同学聚会，很多规矩不懂。大家就吃吃喝喝，聚在一起闲聊，但是要穿正装？幸好我平时穿衣服都还比较正式，不知道蒙混过去没有（机智的我也习惯性地把运动鞋脱了）。</p><p>不过收获也不少。了解到 Ben 的父亲在 Washington Post 主要负责手机客户端，但是偏好 Python，偶尔应公司要求用 Go。还了解到 Ben 暑假在某游戏公司带薪实习，就顺便把我介绍给了来送行的老板（高中找 intern 真的是很头疼的事情，这还真帮我省了不少功夫）。</p><p>虽然 Ben 收到了我给他的 WWDC 胸针，可是他的 Macbook Air 还是被同学打倒的果汁给续了…我也就不追究他妹妹“趁火打劫”走另一个胸针的事了吧。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;摩尔门教的同学 &lt;a href=&quot;https://github.com/bencullenn&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Ben Cullen&lt;/a&gt; 高中毕业了，需要去服务两年再去考上的大学，所以昨天下午在家举行 Farewell Open House。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="生活" scheme="https://ApolloZhu.github.io/categories/%E7%94%9F%E6%B4%BB/"/>
+    
+    
+      <category term="religion" scheme="https://ApolloZhu.github.io/tags/religion/"/>
+    
+      <category term="culture" scheme="https://ApolloZhu.github.io/tags/culture/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CS193P 第五集神翻译</title>
+    <link href="https://ApolloZhu.github.io/2017/08/20/cs193p-ep5-funny-translations/"/>
+    <id>https://ApolloZhu.github.io/2017/08/20/cs193p-ep5-funny-translations/</id>
+    <published>2017-08-20T10:43:36.000Z</published>
+    <updated>2018-01-14T05:28:52.791Z</updated>
+    
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>翻译斯坦福 CS193P (Developing iOS 10 Apps with Swift) 的时候脑子一热留了个神翻译：<a id="more"></a><a href="https://github.com/ApolloZhu/Developing-iOS-10-Apps-with-Swift/blob/d1bb7f08ef2546f357f6813d3442758e46420cda/subtitles/5.%20Gestures%20and%20Multiple%20MVCs.srt#L1330" target="_blank" rel="noopener">第五集十三分五十秒</a></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line">274</div><div class="line">00:13:50,130 --&gt; 00:13:51,862</div><div class="line">Bingo!</div><div class="line">赢了呢！（千岁梗）&lt;##&gt;</div><div class="line">...</div></pre></td></tr></table></figure><p><img src="https://user-images.githubusercontent.com/10842684/29495877-f262acea-8595-11e7-8e81-82e1e06d9835.png" alt="胜ったな、ガハハ！"></p><p>差点忘了 <a href="https://github.com/ApolloZhu/Developing-iOS-10-Apps-with-Swift/blob/d1bb7f08ef2546f357f6813d3442758e46420cda/subtitles/5.%20Gestures%20and%20Multiple%20MVCs.srt#L1640" target="_blank" rel="noopener">第五集十六分二十七秒</a></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line">336</div><div class="line">00:16:27,853 --&gt; 00:16:30,554</div><div class="line">One is you have to ask a UIView, please start</div><div class="line">第一步是告诉 UIView 请开始你的表演&lt;##&gt;</div><div class="line">...</div></pre></td></tr></table></figure><p><img src="https://user-images.githubusercontent.com/10842684/29495970-0fa8aca4-8597-11e7-856b-997e3f53c68d.jpg" alt="李达康：请开始你的表演"></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;翻译斯坦福 CS193P (Developing iOS 10 Apps with Swift) 的时候脑子一热留了个神翻译：
+    
+    </summary>
+    
+      <category term="瞎捣鼓" scheme="https://ApolloZhu.github.io/categories/%E7%9E%8E%E6%8D%A3%E9%BC%93/"/>
+    
+    
+      <category term="Swift" scheme="https://ApolloZhu.github.io/tags/Swift/"/>
+    
+      <category term="anime" scheme="https://ApolloZhu.github.io/tags/anime/"/>
+    
+      <category term="translation" scheme="https://ApolloZhu.github.io/tags/translation/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>那些值得一看的 WWDC 视频（持续更新）</title>
+    <link href="https://ApolloZhu.github.io/2017/08/16/wwdc-videos-worth-watching/"/>
+    <id>https://ApolloZhu.github.io/2017/08/16/wwdc-videos-worth-watching/</id>
+    <published>2017-08-16T12:55:09.000Z</published>
+    <updated>2018-01-14T05:28:52.795Z</updated>
+    
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>为了避免违反苹果的条款，把所有搬运的视频自己删了（之前已经删了一批），免得被苹果工作人员催着删（比如某人录制的 17 年第二天早上奥巴马夫人演讲）。</p><p>那就通过此文分享那些有趣/有用的 WWDC 视频吧。</p><a id="more"></a><h2 id="WWDC-2016"><a href="#WWDC-2016" class="headerlink" title="WWDC 2016"></a>WWDC 2016</h2><h3 id="国际化最佳实践"><a href="#国际化最佳实践" class="headerlink" title="国际化最佳实践"></a>国际化最佳实践</h3><blockquote><p>看点：开始小哥打结还以为太紧张说不出话来，结果…</p></blockquote><p>视频：<a href="https://developer.apple.com/videos/play/wwdc2016/201/" target="_blank" rel="noopener">Session 201: Internationalization Best Practices</a></p><p>当时是我在为了一个 <a href="https://github.com/ApolloZhu/FBLA-2017-NLC" target="_blank" rel="noopener">比赛的 App</a> 狂补本地化/国际化，把所有和本地化有关的视频都翻出来了。可以看出苹果一直重视中国市场，工具也越来越好用 (不明白 Route 85 为什么讲这部分的第一期还在推荐用 genstrings)，所以看到这个的时候内心还是很感动的。特别是名字的识别部分，从 ABRecordRef 到 NameComponent，再到现在的大数据自动识别…</p><p>看完之后建议看看每年最新的一期，一般都有些新的黑科技。当然如果有去 WWDC 现场不想看 Session，可以在 Lab 直接问 Internationalization &amp; Localization 团队的人有什么新东西（2017 年应该是 stringsdict 模版）。顺便提一下，<a href="https://youtu.be/--0Plt3vyt4?list=PLOU2XLYxmsIKGQekfmV0Qk52qLG5LU2jO" target="_blank" rel="noopener">Route 85</a> 除了上面提到的那一期之外，其他的还是很推荐的。</p><h3 id="高效地使用-Metal"><a href="#高效地使用-Metal" class="headerlink" title="高效地使用 Metal"></a>高效地使用 Metal</h3><blockquote><p>看点：实现斯特拉的魔法ED（误）</p></blockquote><p>视频：<a href="https://developer.apple.com/videos/play/wwdc2016/603/" target="_blank" rel="noopener">Session 603: Internationalization Best Practices</a></p><div class="note warning"><p>建议先学 OpenGL/Metal 再看。</p></div><p><a href="http://bangumi.bilibili.com/anime/5540" target="_blank" rel="noopener">斯特拉的魔法</a>，2016年10月番，ED 的效果很有趣，一直有人常使用各种方法重现。这个视频是讲解 <a href="https://developer.apple.com/library/content/samplecode/AdoptingMetalII" target="_blank" rel="noopener">示例代码</a> 的理论，具体该代码模仿 ED 见 <a href="https://www.bilibili.com/video/av7801365/" target="_blank" rel="noopener">av7801365</a>。</p><hr><h2 id="WWDC-2015"><a href="#WWDC-2015" class="headerlink" title="WWDC 2015"></a>WWDC 2015</h2><h3 id="使用-Xcode-7-进行-UI-测试"><a href="#使用-Xcode-7-进行-UI-测试" class="headerlink" title="使用 Xcode 7 进行 UI 测试"></a>使用 Xcode 7 进行 UI 测试</h3><blockquote><p>看点：用户界面测试竟然是这样写出来的？</p></blockquote><p>视频：<a href="https://developer.apple.com/videos/play/wwdc2015/406/" target="_blank" rel="noopener">Session 406: UI Testing in Xcode</a></p><p>看完之后觉得 XCUITest 真的是黑科技。顺便提一下，设置<code>accessibilityIdentifier</code> 能够更精准地定位元素，同时 2017 年增加了附件（比如截屏） 的功能。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;为了避免违反苹果的条款，把所有搬运的视频自己删了（之前已经删了一批），免得被苹果工作人员催着删（比如某人录制的 17 年第二天早上奥巴马夫人演讲）。&lt;/p&gt;
+&lt;p&gt;那就通过此文分享那些有趣/有用的 WWDC 视频吧。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="WWDC" scheme="https://ApolloZhu.github.io/categories/WWDC/"/>
+    
+    
+      <category term="WWDC17" scheme="https://ApolloZhu.github.io/tags/WWDC17/"/>
+    
+      <category term="tips" scheme="https://ApolloZhu.github.io/tags/tips/"/>
+    
+      <category term="WWDC15" scheme="https://ApolloZhu.github.io/tags/WWDC15/"/>
+    
+      <category term="WWDC16" scheme="https://ApolloZhu.github.io/tags/WWDC16/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Tag 迟到的 GitHub Release</title>
+    <link href="https://ApolloZhu.github.io/2017/08/15/git-tag-github-release/"/>
+    <id>https://ApolloZhu.github.io/2017/08/15/git-tag-github-release/</id>
+    <published>2017-08-15T22:50:35.000Z</published>
+    <updated>2018-01-14T05:28:52.795Z</updated>
+    
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p><a href="https://apollozhu.github.io/Developing-iOS-10-Apps-with-Swift/">CS193P 翻译</a>了好长的时间了（快四个月了吧，才翻译四集不到？），现在想到通过 release 能够方便通过 RSS 订阅更新，但是 GitHub 只支持最近的几次 commit。怎么办呢？<a id="more"></a>了解了 GitHub 的 release 其实是基于 git 的标签，那就只有先用 git 打 tag，之后再在 GitHub 上根据 tag 生成 release。</p><h2 id="创建-tag"><a href="#创建-tag" class="headerlink" title="创建 tag"></a>创建 tag</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git tag -a &lt;<span class="comment">#版本号#&gt; -m "&lt;#信息#&gt;" &lt;#commit#&gt;</span></div></pre></td></tr></table></figure><p>如果省略 -m 和参数的话，会让你进入 <strong><em>vim</em></strong> 输入信息的。（<code>:wq</code> 退出）<br>如果省略最后的提交号的话，会 tag 目前的 HEAD。</p><h2 id="同步-tag"><a href="#同步-tag" class="headerlink" title="同步 tag"></a>同步 tag</h2><p>打完标签之后，还需要同步到服务器。普通的 <code>git push</code> 是不会同步标签的，需要加个参数：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git push --tags</div></pre></td></tr></table></figure><p>当然，如果你只想同步部分 tag（比如打错了？），可以只同步某个 tag:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git push &lt;<span class="comment">#tag 名#&gt;</span></div></pre></td></tr></table></figure><hr><p>更详细的使用方法可以参考 <a href="https://git-scm.com/book/zh/v2/Git-%E5%9F%BA%E7%A1%80-%E6%89%93%E6%A0%87%E7%AD%BE" target="_blank" rel="noopener">Git 基础 - 打标签</a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;a href=&quot;https://apollozhu.github.io/Developing-iOS-10-Apps-with-Swift/&quot;&gt;CS193P 翻译&lt;/a&gt;了好长的时间了（快四个月了吧，才翻译四集不到？），现在想到通过 release 能够方便通过 RSS 订阅更新，但是 GitHub 只支持最近的几次 commit。怎么办呢？
+    
+    </summary>
+    
+      <category term="编程" scheme="https://ApolloZhu.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="tips" scheme="https://ApolloZhu.github.io/tags/tips/"/>
+    
+      <category term="git" scheme="https://ApolloZhu.github.io/tags/git/"/>
+    
+      <category term="CLI" scheme="https://ApolloZhu.github.io/tags/CLI/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>没有老婆X，机器学习造</title>
+    <link href="https://ApolloZhu.github.io/2017/08/15/gen-scale-tag-anime-girl/"/>
+    <id>https://ApolloZhu.github.io/2017/08/15/gen-scale-tag-anime-girl/</id>
+    <published>2017-08-15T12:47:30.000Z</published>
+    <updated>2018-01-14T05:28:52.795Z</updated>
+    
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>不是很懂我们这些二次元的（滑稽），但好东西要分享，方法如下——</p><a id="more"></a><h2 id="第一步-生成"><a href="#第一步-生成" class="headerlink" title="第一步 - 生成"></a>第一步 - 生成</h2><p>打开 <a href="http://make.girls.moe/#/" target="_blank" rel="noopener">make.girls.moe</a></p><p>等待 “Loading Model…” 结束之后，就可以直接点击 “Generate” 生成了</p><p><img src="https://wx3.sinaimg.cn/large/9b6450acly1fikc00za7sj203k03kjs5.jpg" alt="真·小老婆"></p><p>如果你要自定义配置（Options），看不懂英文，可以用这个翻译一下：<a href="https://raw.githubusercontent.com/ApolloZhu/script/master/make.girls.moe.js" target="_blank" rel="noopener">https://raw.githubusercontent.com/ApolloZhu/script/master/make.girls.moe.js</a></p><h2 id="第二步-放大"><a href="#第二步-放大" class="headerlink" title="第二步 - 放大"></a>第二步 - 放大</h2><blockquote><p>虽然官方并不是很推荐，详见讨论 <a href="https://github.com/makegirlsmoe/makegirls.moe_web/issues/3" target="_blank" rel="noopener">链接</a></p></blockquote><p>打开 <a href="http://waifu2x.udp.jp/" target="_blank" rel="noopener">waifu2x.udp.jp</a></p><p>降噪程度 选 <strong><em>最高</em></strong>，放大倍数 选 <strong><em>2x</em></strong></p><p>记住点 “I’m not a robot” 左边的选择框</p><p>下载，上传，如此重复放大几次</p><p>把最终效果和原图对比一下：</p><p><img src="https://wx2.sinaimg.cn/large/9b6450acly1fikc01isy1j20zk0hr168.jpg" alt="对比"></p><h2 id="可选-打标签"><a href="#可选-打标签" class="headerlink" title="可选 - 打标签"></a>可选 - 打标签</h2><p>打开 <a href="http://demo.illustration2vec.net/" target="_blank" rel="noopener">demo.illustration2vec.net</a></p><p>图片上传最开始最小的版本就可以了，然后机器会帮你把老婆分类</p><p><img src="https://wx4.sinaimg.cn/large/9b6450acgy1fiprcw6r6cj20zk0jj77o.jpg" alt="骑士&amp;魔法的男/女主角"></p><div class="note success"><p>等等，好像这是可爱的男孩子</p></div><hr><p>最后，附上三个项目的 GitHub 地址： <a href="https://github.com/makegirlsmoe" target="_blank" rel="noopener">make.girls.moe</a>, <a href="https://github.com/nagadomi/waifu2x" target="_blank" rel="noopener">waifu2x</a>, <a href="https://github.com/rezoo/illustration2vec" target="_blank" rel="noopener">Illustration2Vec</a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;不是很懂我们这些二次元的（滑稽），但好东西要分享，方法如下——&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="瞎捣鼓" scheme="https://ApolloZhu.github.io/categories/%E7%9E%8E%E6%8D%A3%E9%BC%93/"/>
+    
+    
+      <category term="anime" scheme="https://ApolloZhu.github.io/tags/anime/"/>
+    
+      <category term="translation" scheme="https://ApolloZhu.github.io/tags/translation/"/>
+    
+      <category term="AI/ML" scheme="https://ApolloZhu.github.io/tags/AI-ML/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>苹果开发者视频全面上线简体中文字幕</title>
+    <link href="https://ApolloZhu.github.io/2017/08/15/apple-dev-cn-sub/"/>
+    <id>https://ApolloZhu.github.io/2017/08/15/apple-dev-cn-sub/</id>
+    <published>2017-08-15T11:13:43.000Z</published>
+    <updated>2018-01-14T05:28:52.791Z</updated>
+    
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p><img src="https://developer.apple.com/click/images/000-cn-subtitles-2017/cn-subtitles-2017.jpg" alt="开发者视频现已配有简体中文字幕"></p><p>视频包括 <a href="https://developer.apple.com/videos/wwdc2017/" target="_blank" rel="noopener">WWDC 2017 视频</a> 和 <a href="https://developer.apple.com/app-store/insights/" target="_blank" rel="noopener">Developer Insight（开发者经验分享视频）</a>，其实前些天就陆陆续续在上去了，一开始我以为是机器翻译，但是仔细看才发现不是（当时我还是很惊讶的）。</p><blockquote><p>本文部分转自苹果邮件</p></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;script src=&quot;/assets/js/APlayer.min.js&quot;&gt; &lt;/script&gt;&lt;p&gt;&lt;img src=&quot;https://developer.apple.com/click/images/000-cn-subtitles-2017/cn-subtitles-2
+      
+    
+    </summary>
+    
+      <category term="WWDC" scheme="https://ApolloZhu.github.io/categories/WWDC/"/>
+    
+    
+      <category term="WWDC17" scheme="https://ApolloZhu.github.io/tags/WWDC17/"/>
+    
+      <category term="translation" scheme="https://ApolloZhu.github.io/tags/translation/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>效率提高八倍的方法</title>
+    <link href="https://ApolloZhu.github.io/2017/08/02/last-minute-epf/"/>
+    <id>https://ApolloZhu.github.io/2017/08/02/last-minute-epf/</id>
+    <published>2017-08-02T02:43:12.000Z</published>
+    <updated>2018-01-14T05:28:52.795Z</updated>
+    
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><blockquote class="blockquote-center"><p>To Fail to Plan is to Plan to Fail</p></blockquote><a id="more"></a><p>熟悉我的人大多知道我不玩游戏，却不知道根本原因是有一次差点没做完作业。拖延症估计一直就没治好过，只能说幸好还没到计算我 Credit Rating 的时候，还有机会改正。这次算是一直在 default 这个课程的进度… 一个月的时间本来是很充裕的，硬是变成了</p><blockquote><p>“用四分之三完成四分之一，用四分之一赶完四分之三”</p></blockquote><p>哈哈，deadline 让我的效率提高到了原来的九倍。（滑稽）</p><p>还记得不知道谁说过：“时间管理软件只对会管理时间的人有用”。想想也是，必须要有自制力去坚持完成才行。原来一直没有下定过决心，因为放不下对那种美好世界的向往；不过今年 TOEFL, SAT, AP 课程和社团管理还等着我呢，看来是时候和二次元说再见了。</p><blockquote><p>See you later, alligator.</p></blockquote><p>就算我最终还是没能改掉拖延症，至少希望不要学会下面这种神奇的操作：</p><p><img src="https://wx1.sinaimg.cn/large/9b6450acgy1fi4svz3ahaj20n2053jru.jpg" alt="If a programmer injures his wrist from using his computer in an unsafe position, he should contact Occupational Safety and Health Administration"></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote class=&quot;blockquote-center&quot;&gt;&lt;p&gt;To Fail to Plan is to Plan to Fail&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="生活" scheme="https://ApolloZhu.github.io/categories/%E7%94%9F%E6%B4%BB/"/>
+    
+    
+      <category term="management" scheme="https://ApolloZhu.github.io/tags/management/"/>
+    
+      <category term="anime" scheme="https://ApolloZhu.github.io/tags/anime/"/>
+    
+      <category term="economics" scheme="https://ApolloZhu.github.io/tags/economics/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>为什么这世上没有免费的午餐？</title>
+    <link href="https://ApolloZhu.github.io/2017/08/01/no-free-lunch/"/>
+    <id>https://ApolloZhu.github.io/2017/08/01/no-free-lunch/</id>
+    <published>2017-08-01T07:03:57.000Z</published>
+    <updated>2018-01-14T05:28:52.795Z</updated>
+    
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><blockquote class="blockquote-center"><p>There is no such thing as a free lunch</p></blockquote><a id="more"></a><p>从理论上来讲，任何事情都有 trade-off，权衡取舍。即使别人请你吃了免费的午餐，午餐本身的成本是不用分担的，但是我们还要考虑 opportunity cost，机会成本。你本来可能打算用这段时间干些其他的事情，比如把打赏的按钮加到博客里，说不定有人就已经给你砸了几个硬币。</p><p>就算不考虑机会成本，我们可以分析一下现实的状况：</p><p><img src="https://wx2.sinaimg.cn/large/9b6450acgy1fi4svxx8iyj20gm02874i.jpg" alt="Almost nothing is for free: If someone is offering you a free lunch, a free seminar, or a free weekend, he or she is trying to sell you something. The person will deny it, but he or she is luring you to a hotel meeting room, a restaurant, or an office for a reason -- and that reason is not to feed you; it is to sell you something."></p><p>比如上次在车展上，某人登记了个人信息，参加一个据说会抽中某地免费几日游的活动。过了几天，没想到还真有人给她打电话来了。尽管我和我的老师都持怀疑态度，她还是很兴奋地去领奖了。结果发现整个就是旅行社为了推销酒店和旅行计划的套路，就如上面这段文字所描述的那样。</p><p>其实就算你只去吃了免费的午餐，对方也是没有亏损的，因为它们得到了你的个人信息。只能希望不会发生 identity theft，身份盗用的问题，要不然为了贪小利就吃了大亏了。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote class=&quot;blockquote-center&quot;&gt;&lt;p&gt;There is no such thing as a free lunch&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="摘录" scheme="https://ApolloZhu.github.io/categories/%E6%91%98%E5%BD%95/"/>
+    
+    
+      <category term="translation" scheme="https://ApolloZhu.github.io/tags/translation/"/>
+    
+      <category term="economics" scheme="https://ApolloZhu.github.io/tags/economics/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>可不可以跳过汇编，直接学习SWIFT语言？</title>
+    <link href="https://ApolloZhu.github.io/2017/07/27/swift-or-assembly-first/"/>
+    <id>https://ApolloZhu.github.io/2017/07/27/swift-or-assembly-first/</id>
+    <published>2017-07-27T15:03:05.000Z</published>
+    <updated>2018-01-14T05:28:52.795Z</updated>
+    
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>看到知乎上有个很有趣（没有建设性）的问题 ——</p><blockquote><p><a href="https://www.zhihu.com/question/24831599" target="_blank" rel="noopener">可不可以跳过汇编，直接学习SWIFT语言？</a></p></blockquote><p>来晚了，只好在这里大声喊出理所当然的答案 —— <a id="more"></a></p><p><strong><em>不可以</em></strong>！我才买了一本王爽的《汇编语言》</p><p><img src="https://wx2.sinaimg.cn/large/9b6450acgy1fhyg7t2eqlj21kw16odx9.jpg" alt="A WWDC17 Swift pin, on \[the\] &quot;Assembly Language&quot; by Shuang Wang"></p><blockquote><p>免得被知乎大佬说不求上进 —— <a href="https://www.zhihu.com/question/61130823" target="_blank" rel="noopener">知乎：如何评价 6 岁开始编程的马舜喆？他的前途会如何？</a></p></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;看到知乎上有个很有趣（没有建设性）的问题 ——&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.zhihu.com/question/24831599&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;可不可以跳过汇编，直接学习SWIFT语言？&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;来晚了，只好在这里大声喊出理所当然的答案 ——
+    
+    </summary>
+    
+      <category term="WWDC" scheme="https://ApolloZhu.github.io/categories/WWDC/"/>
+    
+    
+      <category term="WWDC17" scheme="https://ApolloZhu.github.io/tags/WWDC17/"/>
+    
+      <category term="Swift" scheme="https://ApolloZhu.github.io/tags/Swift/"/>
+    
+      <category term="zhihu" scheme="https://ApolloZhu.github.io/tags/zhihu/"/>
+    
+      <category term="Assembly" scheme="https://ApolloZhu.github.io/tags/Assembly/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>美国梦</title>
+    <link href="https://ApolloZhu.github.io/2017/07/19/the-american-dream/"/>
+    <id>https://ApolloZhu.github.io/2017/07/19/the-american-dream/</id>
+    <published>2017-07-19T17:15:52.000Z</published>
+    <updated>2018-01-14T05:28:52.795Z</updated>
+    
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>中国梦博大精深，不可参透，相比之下美国梦就显得有些世俗了：</p><blockquote><p>For many people, the American dream means an opportunity to start their own businesses.</p><footer><strong>Economics and Personal Finance</strong></footer></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;script src=&quot;/assets/js/APlayer.min.js&quot;&gt; &lt;/script&gt;&lt;p&gt;中国梦博大精深，不可参透，相比之下美国梦就显得有些世俗了：&lt;/p&gt;
+&lt;blockquote&gt;&lt;p&gt;For many people, the American dream me
+      
+    
+    </summary>
+    
+      <category term="摘录" scheme="https://ApolloZhu.github.io/categories/%E6%91%98%E5%BD%95/"/>
+    
+    
+      <category term="translation" scheme="https://ApolloZhu.github.io/tags/translation/"/>
+    
+      <category term="economics" scheme="https://ApolloZhu.github.io/tags/economics/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>顾客是上帝</title>
+    <link href="https://ApolloZhu.github.io/2017/07/17/consumer-sovereignty/"/>
+    <id>https://ApolloZhu.github.io/2017/07/17/consumer-sovereignty/</id>
+    <published>2017-07-17T22:00:09.000Z</published>
+    <updated>2018-01-14T05:28:52.791Z</updated>
+    
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>看到经济学教材里的 consumer sovereignty 立刻就想到了“顾客是上帝”这句话，虽然更准确意思是顾客是至高无上的，不过应该差不多吧？感觉定义还是很有趣的：</p><blockquote><p>To succeed, businesses must produce goods and services that consumers are willing and able to buy.</p><footer><strong>Economics and Personal Finance</strong><cite>Definition of Consumer Sovereignty</cite></footer></blockquote><p>按个人理解，假设客户只是选择购买商品，而没有购买服务（付小费），那个时候应该不算是“上帝”的。不过现实中，客户真要是摆出这句话，怂回去还是显得有些小气了。</p><div class="note success"><p>题外话，虽然我不信教，不过根据我浅薄的理解，上帝不是替人民受苦受难的吗？</p></div>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;script src=&quot;/assets/js/APlayer.min.js&quot;&gt; &lt;/script&gt;&lt;p&gt;看到经济学教材里的 consumer sovereignty 立刻就想到了“顾客是上帝”这句话，虽然更准确意思是顾客是至高无上的，不过应该差不多吧？感觉定义还是很有趣的：&lt;/
+      
+    
+    </summary>
+    
+      <category term="摘录" scheme="https://ApolloZhu.github.io/categories/%E6%91%98%E5%BD%95/"/>
+    
+    
+      <category term="translation" scheme="https://ApolloZhu.github.io/tags/translation/"/>
+    
+      <category term="economics" scheme="https://ApolloZhu.github.io/tags/economics/"/>
+    
+      <category term="religion" scheme="https://ApolloZhu.github.io/tags/religion/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hello!My World!! - Fhána</title>
+    <link href="https://ApolloZhu.github.io/2017/07/17/fhana-hello-my-world/"/>
+    <id>https://ApolloZhu.github.io/2017/07/17/fhana-hello-my-world/</id>
+    <published>2017-07-17T14:35:00.000Z</published>
+    <updated>2018-01-14T05:28:52.791Z</updated>
+    
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Map&lt;Creation&gt; hello = <span class="comment">/*my*/</span> <span class="keyword">new</span> World();</div><div class="line"><span class="comment">// The Java I learned might be a fake one.</span></div><div class="line"><span class="comment">// 我可能学了假的 Java.</span></div></pre></td></tr></table></figure><div id="aplayer1" class="aplayer" style="margin-bottom: 20px;"></div><script>var ap = new APlayer({element: document.getElementById("aplayer1"),narrow: false,autoplay: false,showlrc: 0,music: {title: "Hello!My World!!",author: "fhána",url: "http://audio.itunes.apple.com/apple-assets-us-std-000001/AudioPreview117/v4/7f/9c/56/7f9c5639-1d87-d22b-5849-be1ab6413ea9/mzaf_6283143472876111901.plus.aac.ep.m4a",pic: "https://is2-ssl.mzstatic.com/image/thumb/Music127/v4/b0/a7/a6/b0a7a6d4-c424-982e-987e-60c274ba18f3/source/939x0w.jpg",}});window.aplayers || (window.aplayers = []);window.aplayers.push(ap);</script><p>Hello!My World!!【アニメ盤】 - EP: <a href="https://itunes.apple.com/jp/album/hello-my-world/id1254958489" target="_blank" rel="noopener">iTunes</a> | <a href="http://music.163.com/#/album?id=35696256" target="_blank" rel="noopener">网易云</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;script src=&quot;/assets/js/APlayer.min.js&quot;&gt; &lt;/script&gt;&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div
+      
+    
+    </summary>
+    
+      <category term="生活" scheme="https://ApolloZhu.github.io/categories/%E7%94%9F%E6%B4%BB/"/>
+    
+    
+      <category term="music" scheme="https://ApolloZhu.github.io/tags/music/"/>
+    
+      <category term="anime" scheme="https://ApolloZhu.github.io/tags/anime/"/>
+    
+      <category term="Java" scheme="https://ApolloZhu.github.io/tags/Java/"/>
+    
+      <category term="translation" scheme="https://ApolloZhu.github.io/tags/translation/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Swift 和 NS_EXTENSION_UNAVAILABLE</title>
+    <link href="https://ApolloZhu.github.io/2017/06/20/swift-and-ns-extension-unavailable/"/>
+    <id>https://ApolloZhu.github.io/2017/06/20/swift-and-ns-extension-unavailable/</id>
+    <published>2017-06-20T19:30:04.000Z</published>
+    <updated>2018-01-14T05:28:52.795Z</updated>
+    
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p><img src="http://wx1.sinaimg.cn/large/9b6450acgy1fgsia3aimjj20n103mq35.jpg" alt="&#39;shared&#39; is unavailable: Use view controller based solutions where appropriate instead."></p><p>根据 <a href="https://developer.apple.com/library/content/documentation/General/Conceptual/ExtensibilityPG/ExtensionOverview.html#//apple_ref/doc/uid/TP40014214-CH2-SW6" target="_blank" rel="noopener">App Extension Programming Guide</a>，有些 API 在 App Extension 中是不允许调用的，其中最典型的一个就是 <code>UIApplication.shared</code>。这些方法和属性都由 <code>NS_EXTENSION_UNAVAILABLE</code> 这个宏作为标记，在 App Extension 中使用的话 Swift 代码直接无法通过编译（因为程序会直接崩溃），但是因为 Swift 不支持宏定义，所以无法用 <code>#if</code> 来判断是否允许调用。虽然 Swift 中也有类似的 <code>@available</code>，但是因为只是运行时判断，所以并不能解决无法编译的问题。</p><p>目前曲线救国的方法有以下三种<a id="more"></a>，不过均未考虑对 Objective-C 的兼容，各位请斟酌后使用。</p><ol><li>最简单的方法是把需要用到这些 API 的代码作为 extension 放在另一个文件中，只在非扩展的 target 中包含。</li><li>或者是修改工程文件，把 <code>NS_EXTENSION_UNAVAILABLE</code> 加到扩展 target 的 Build Settings 里的 Swift Compiler - Custom Flags 里。这样就能用 <code>#if</code> 判断了。<img src="http://wx3.sinaimg.cn/large/9b6450acgy1fgslugnclwj20jk05ijs3.jpg" alt=""></li><li>最后这个方法是在 WWDC17 去 Messages Extension 的 lab 时候想到的，问了下苹果工程师，大概没问题。自己把函数或变量修饰为 <code>@available(...OSAplicationExtension, unavailable)</code>，然后内部通过 Key Path 实现。其它 <code>NS_EXTENSION_UNAVAILABLE</code> 适用的地方尝试调用会因为 <code>@available</code> 无法通过编译，所以只要自己控制好不要在实现的时候乱用就行。完整的例子如下：</li></ol><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@available</span>(iOSApplicationExtension, unavailable, message: <span class="string">"This is unavailable: Use view controller based solutions where appropriate instead."</span>)</div><div class="line"><span class="meta">@available</span>(macOSApplicationExtension, unavailable, message: <span class="string">"This is unavailable: Use view controller based solutions where appropriate instead."</span>)</div><div class="line"><span class="meta">@available</span>(watchOSApplicationExtension, unavailable, message: <span class="string">"This is unavailable: Use view controller based solutions where appropriate instead."</span>)</div><div class="line"><span class="meta">@available</span>(tvOSApplicationExtension, unavailable, message: <span class="string">"This is unavailable: Use view controller based solutions where appropriate instead."</span>)</div><div class="line"><span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">show</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="keyword">let</span> keyWindow = <span class="type">UIApplication</span>.value(forKeyPath: #keyPath(<span class="type">UIApplication</span>.shared.keyWindow))</div><div class="line">    show(<span class="keyword">in</span>: keyWindow <span class="keyword">as</span>? <span class="type">UIWindow</span>)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">open</span> <span class="function"><span class="keyword">func</span> <span class="title">show</span><span class="params">(<span class="keyword">in</span>: UIWindow)</span></span> &#123; &#125;</div></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;http://wx1.sinaimg.cn/large/9b6450acgy1fgsia3aimjj20n103mq35.jpg&quot; alt=&quot;&amp;#39;shared&amp;#39; is unavailable: Use view controller based solutions where appropriate instead.&quot;&gt;&lt;/p&gt;
+&lt;p&gt;根据 &lt;a href=&quot;https://developer.apple.com/library/content/documentation/General/Conceptual/ExtensibilityPG/ExtensionOverview.html#//apple_ref/doc/uid/TP40014214-CH2-SW6&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;App Extension Programming Guide&lt;/a&gt;，有些 API 在 App Extension 中是不允许调用的，其中最典型的一个就是 &lt;code&gt;UIApplication.shared&lt;/code&gt;。这些方法和属性都由 &lt;code&gt;NS_EXTENSION_UNAVAILABLE&lt;/code&gt; 这个宏作为标记，在 App Extension 中使用的话 Swift 代码直接无法通过编译（因为程序会直接崩溃），但是因为 Swift 不支持宏定义，所以无法用 &lt;code&gt;#if&lt;/code&gt; 来判断是否允许调用。虽然 Swift 中也有类似的 &lt;code&gt;@available&lt;/code&gt;，但是因为只是运行时判断，所以并不能解决无法编译的问题。&lt;/p&gt;
+&lt;p&gt;目前曲线救国的方法有以下三种
+    
+    </summary>
+    
+      <category term="WWDC" scheme="https://ApolloZhu.github.io/categories/WWDC/"/>
+    
+    
+      <category term="WWDC17" scheme="https://ApolloZhu.github.io/tags/WWDC17/"/>
+    
+      <category term="tips" scheme="https://ApolloZhu.github.io/tags/tips/"/>
+    
+      <category term="Swift" scheme="https://ApolloZhu.github.io/tags/Swift/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>长辈用手机时总寻求子女帮助的原因竟然是？</title>
+    <link href="https://ApolloZhu.github.io/2017/06/15/reason-behind-the-elders-whos-trys-out-tech/"/>
+    <id>https://ApolloZhu.github.io/2017/06/15/reason-behind-the-elders-whos-trys-out-tech/</id>
+    <published>2017-06-15T21:04:04.000Z</published>
+    <updated>2018-01-14T05:28:52.795Z</updated>
+    
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>在知乎上读 AppSo 发布的 <a href="https://www.zhihu.com/publications/book/119554848" target="_blank" rel="noopener">《iPhone 就该这样用》</a>，本来以为可以学到点技巧，结果却收获了一个发人深省的观点——</p><blockquote><p>其实很多时候不是他们不会用，而是他们想接着这些仅有的话题和我们聊上几句话。</p><p>把 iPhone 变成「老人机」不难，难的是有耐心陪着长辈说话。</p><footer><strong>孙润晨</strong><cite>十三、如何为长辈设置 iPhone/iPad?</cite></footer></blockquote><p><a href="https://www.zhihu.com/publications/book/119554848" target="_blank" style="position:relative;text-decoration:none;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;margin-top:16px;margin-bottom:16px;cursor:pointer;border:1px solid #e7eaf1;border-radius:4px;box-shadow: 0 1px 3px 0 rgba(0,34,77,.05);"><img src="https://pic1.zhimg.com/v2-f23e0da5cb6788cca75e186d11699c8c_200x0.jpg" style="border:none;padding:0;-ms-flex-negative:0;flex-shrink:0;width:90px;height: 90px;-o-object-fit:cover;object-fit:cover;"><span style="display:-webkit-box;display:-ms-flexbox;display:flex;width:100%;padding:10px 16px;overflow:hidden;-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;-ms-flex-pack:distribute;justify-content:space-around;"><span style="font-size:18px;font-weight:400;">《iPhone 就该这样用》作者：AppSo</span><span style="overflow:hidden;font-size:15px;color:#8798ae;text-overflow:ellipsis;word-wrap:normal;white-space:nowrap;">www.zhihu.com<span style="display:inline-block;padding:1px 6px;margin-left:8px;font-size:12px;line-height:normal;color:#8590a6;vertical-align:1px;background-color:#f7f8fa;border-radius:3px;">电子书</span></span></span></a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;script src=&quot;/assets/js/APlayer.min.js&quot;&gt; &lt;/script&gt;&lt;p&gt;在知乎上读 AppSo 发布的 &lt;a href=&quot;https://www.zhihu.com/publications/book/119554848&quot; target=&quot;_bl
+      
+    
+    </summary>
+    
+      <category term="摘录" scheme="https://ApolloZhu.github.io/categories/%E6%91%98%E5%BD%95/"/>
+    
+    
+      <category term="zhihu" scheme="https://ApolloZhu.github.io/tags/zhihu/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>A &quot;Good&quot; Letter to Next Years&#39; APCSA Students</title>
+    <link href="https://ApolloZhu.github.io/2017/05/24/letter-to-apcsa-students/"/>
+    <id>https://ApolloZhu.github.io/2017/05/24/letter-to-apcsa-students/</id>
+    <published>2017-05-24T23:59:59.000Z</published>
+    <updated>2018-01-14T05:28:52.795Z</updated>
+    
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><blockquote><p>This letter was included into the <a href="https://drive.google.com/file/d/0BzsLc9xUiW_Oajh6cUNGVXJZUms/view" target="_blank" rel="noopener">summer packet</a> with minor modifications</p></blockquote><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> (Student student : APCSA.future.students)</div><div class="line">    System.out.print(<span class="string">"Hello "</span>+ student.name);</div></pre></td></tr></table></figure><p>You’ll learn about computer science and Java here. You won’t be learning about how to write visually attractive programs for the most of the times, but what you learn will empower you to write those programs with ease. This course is the prerequisites for all other CS courses, but why are you taking it? For me, <strong>I was here to learn.</strong></p><a id="more"></a><p>Despite the fact that I love programming, I’m afraid of computer science, especially those abstract algorithms. To prepare for this course, I read Think Java carefully. Mr. Lau suggested to read the first three chapters, I read it entirely. You can download it on your phone, and read it whenever you take your phone out. You don’t need a full time period, except for the exercises at the end of each chapter. You might find yourself unable to complete the exercise questions like me; if you do, just go back and read about that part again. There are no preferred answers to those questions, so any code that generates the same result are correct. But if you ever wonder, mine is on <a href="https://github.com/ApolloZhu/Think-Java-Exercises" target="_blank" rel="noopener">GitHub</a>.</p><p>Even with a significant amount of knowledge about programming, you can always find something new here, so don’t just assume you are omniscient. Java is advanced but primitive, stern but nonchalant, expressive yet confusing. Learning Java is like learning a foreign language, you have to practice using it. Thus, I strongly recommend starting the labs early. Similar to those exercises included in Think Java, there are no standard ways to implement them. Therefore, explain to your tutor how you choose to complete the task, don’t let them type the code for you. And you never want your friend to show you their program; it will limit your imagination.</p><p>This course requires you to think logically, trace what’s going on. It is a frustrating process, but the good news is, you have a lot of resources. You can ask questions in class, take notes on or annotate important concepts for review. Another option is coming to Mr. Lau’s cougar time. You’ll find a comfortable environment for studying computer science. If you have any questions, you can always ask Mr. Lau or students around you. A lot of “good” students and center tutors come on daily bases. They will always help you <strong><em>IFF</em></strong> you ask. Or join Oakton Computer Science Club, you’ll find many opportunities to practice what you learned in this course, and meet with some really advanced students.</p><p>You can be a good student too. It’s very simple: <strong>understand what you are doing.</strong> <strong><em>Never use a code snippet until you can write it and its variations out without any assistance.</em></strong> I’m definitely talking about plagiarism, but that’s not my focus. I want to emphasis on the importance of solving problems by yourself. If you can’t visualize the process in your head, draw a graph, a table, or a stack to visualize the flow of your program. If your program doesn’t compile, read the error messages. A lot of them doesn’t make any sense to you (and me), but you’ll find the culprit through these traces. If you have a logic error, try break points. They are very easy to learn and convenient to use. You’ll find them handy. </p><p>Other than understanding how it works, <strong>you need to know why it works.</strong> You can achieve this by reading the source code of Java. Written by top developers in the world, Java source code demonstrates the conventions of writing Java code. You can compare your own solutions to theirs, and ask yourself what’s the difference. With a lot of documentations and comments, you can figure out why they choose to do it that way. Of course I’m not asking you to read all 2 billion lines of Java code, that’s neither necessary nor efficient. When Mr. Lau tell you “this is not natural,” it is a good place to start. If you have a professional IDE like Eclipse, just ctrl/command click on that method or class; otherwise, find it in the <code>JAVA_HOME</code> directory.</p><p>A quick note for those “good” students. You may use “advanced” stuff – such as regular expressions and lambdas – in your lab. That’s what people use in real life, but make sure you know how to complete the tasks without those language features, fancy methods, and classes.</p><p>Remember: <strong><em>ALL</em></strong> are equal before computer science; <code>(to be) || !(to be)</code>, that is <code>true</code>.</p><p><a href="https://github.com/ApolloZhu" target="_blank" rel="noopener">@ApolloZhu</a><br>2017/5/24</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;This letter was included into the &lt;a href=&quot;https://drive.google.com/file/d/0BzsLc9xUiW_Oajh6cUNGVXJZUms/view&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;summer packet&lt;/a&gt; with minor modifications&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; (Student student : APCSA.future.students)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    System.out.print(&lt;span class=&quot;string&quot;&gt;&quot;Hello &quot;&lt;/span&gt;+ student.name);&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;You’ll learn about computer science and Java here. You won’t be learning about how to write visually attractive programs for the most of the times, but what you learn will empower you to write those programs with ease. This course is the prerequisites for all other CS courses, but why are you taking it? For me, &lt;strong&gt;I was here to learn.&lt;/strong&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="编程" scheme="https://ApolloZhu.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="English" scheme="https://ApolloZhu.github.io/tags/English/"/>
+    
+      <category term="Java" scheme="https://ApolloZhu.github.io/tags/Java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>2017 ACSL All-Star Contest</title>
+    <link href="https://ApolloZhu.github.io/2017/05/18/acsl17-all-star-contest/"/>
+    <id>https://ApolloZhu.github.io/2017/05/18/acsl17-all-star-contest/</id>
+    <published>2017-05-18T15:17:16.000Z</published>
+    <updated>2018-01-14T05:28:52.791Z</updated>
+    
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>没想到在六月份去 WWDC 之前，5/27 号我还要先飞洛杉矶参加 <a href="http://www.wixtest.acsl.org/all-star-contest-information" target="_blank" rel="noopener">ACSL All-Star Contest</a>。</p><a id="more"></a><p>因为学校放假，社团组织略有疏忽，指导教师的邮箱把主办方发来的通知标为了垃圾邮件，等到我们组里一个比较看重这个比赛的同学注意到不对劲去问的时候，我们只剩下一周左右的时间。虽然官方推荐的酒店已经订满了，租车的优惠也没了，但是既然都进了决赛（后来才知道这也是我们社团第一次进决赛），哪有不去的道理？</p><p>按道理来说，因为是通过学校社团报的名，这个应该属于学校活动。需要先让老师完成填写 <a href="https://www.fcps.edu/sites/default/files/media/forms/fs141.pdf" target="_blank" rel="noopener">REQUEST FOR APPROVAL OF UNUSUAL FIELD TRIP</a>，并提供一个比较详细的日程表。进过学校各级领导签字批准过后，家长再在 <a href="https://www.fcps.edu/sites/default/files/media/forms/fs152_0.pdf" target="_blank" rel="noopener">PARENTAL AUTHORIZATION AND ACKNOWLEDGEMENT OF RISK FOR FIELD TRIP</a> 上签字，连着 <a href="https://www.fcps.edu/sites/default/files/media/forms/se3_0.pdf" target="_blank" rel="noopener">EMERGENCY CARE INFORMATION</a> 和支票一起交给学校，由学校的账户统一支付。就算 Activity Office 的 Ms. Jay 说会帮我们盯着，但这个过程下来肯定是赶不上的。而且 Mr. Lau 和 Mr. Larson 都没空当 Chaperone，学校也不认同家长代替，这事就只好私了了。</p><h2 id="5-月-26-日，星期五"><a href="#5-月-26-日，星期五" class="headerlink" title="5 月 26 日，星期五"></a>5 月 26 日，星期五</h2><p>今天本来之上半天课，但因为化学有个单元测试，航班又在傍晚，就没准逃课的。结果家长们商量好了让我们聚在一起集训一天，顺势请了个病假，稍微发了个邮件告诉 Mr. Lau 不要担心（Mr. Lau，我有多喝热水哦）。星期四看算法竞赛入门到凌晨一点，早上九点再到 Justin 家继续看各种资料复习准备。不过感觉大家都不是很投入的样子——有怀抱宠物呼呼大睡的，有玩游戏翻漫画的，有追番到胃疼的（原谅真美这集堪比好想急死你）。</p><p>下午三点出发到 IAD 乘机，因为 UA 没有柜台，拿着打印的电子机票就直接过安检进去了。没想到国内航班的 D 航站楼和国际相比差远了，连座位都不够，整体显得很拥挤。到了 D23 登机口换了 UA719 的机票，坐在地上等了半个小时。因为是国内航班，即使有五个小时，还是在饭点，却依然没有正餐，只有一小包饼干和饮料。即使是坐第一排 7E，也许因为是 737-800 吧，第一次体会到了为什么会有人需要买靠枕 —— 座位的设计绝对没考虑人体工程学。</p><h3 id="洛杉矶"><a href="#洛杉矶" class="headerlink" title="洛杉矶"></a>洛杉矶</h3><p>洛杉矶时差三个小时，到的时候是晚上八点。出了机场，到外面有紫色牌子（Rental Car Shuttles）的地方等 Hertz 的黄色 shuttle. 酒店其实没有想象的远，也有可能是 LA 大家开车速度很快，四十分钟左右就到了。晚饭在酒店旁边 The Oaks <del>连锁（误）</del> 商场的 Chess Factory 吃的，开胃菜 + 每人一份主食 + 招牌起司蛋糕总共大约 $130 左右，分量很大，大家都没吃完。住的 La Quinta Inn &amp; Suites Thousand Oaks Newbury Park 酒店整体感觉很好，Wi-Fi 也不慢，只不过和其他美国酒店一样没有洗漱套装。</p><h2 id="5-月-27-日，星期六"><a href="#5-月-27-日，星期六" class="headerlink" title="5 月 27 日，星期六"></a>5 月 27 日，星期六</h2><p>早上六点起床，本来准备七点准时去会场 <a href="https://www.google.com/maps/place/456+N+Reino+Rd,+Newbury+Park,+CA+91320" target="_blank" rel="noopener">Newbury Park HS</a>，结果酒店七点才开始供应早餐。早餐有面包，饮料，燕麦，还可以自己烤华夫饼，简单吃了一下，收拾整理，八点左右到了会场。带队“老师”到体育馆中间的桌子交 $200 报名费，领取奖牌，优惠券，日程安排和午餐券。组织者八点半准时开始说明规则，四十五的时候让学生代表去领题目，其余的队员去找教室，家长老师去特定的休息室。</p><p>编程题目有一定的困难，但还是属于可以完成的范畴。中途在测试的时候输入的数据没选好，把电脑卡死了，然后就陷入了两小时和电脑的苦战。虽然依然在想算法，但其实把算法转成代码还是没那么容易。有一道题算是完成了，但是有些小瑕疵；有一道题本来都完成了，但是因为 IDE 的问题，完成的版本被删除了（早知道就让他们先把这道题过了再说），只留下了原来一个快完成的版本。剩下两道时间不够，没能实现…十二点半交卷，想方设法请求监考老师再给我们点时间，未果，郁郁寡欢地吃了两块披萨，就去考笔试了。虽然全部都是选择题，但是有一个可恶的选项 <code>E —— 以上皆不是</code>。虽然基础都掌握了，但是因为题目本身很复杂，结果也只得了一半的分。</p><h3 id="观光"><a href="#观光" class="headerlink" title="观光"></a>观光</h3><p>其他不说，学校整个感觉就是地广人稀 —— 高中完全给人一种大学的感觉，竟然还配备了一个游泳池。考虑到多半不会得奖，就没等到四点，两点半考完就开始往洛杉矶走，准备路上去好莱坞看看。志性的 HOLLYWOOD 只瞥见了一眼，主要还是在城镇里和富人区开车转了一遍。印象最深的是某个建筑外墙上的彩绘，和路边满树的紫色小花（原谅我无知）。晚餐本来准备在鼎泰丰吃，不出所料地要等很长时间，就在旁边 Granville 吃了，价格还算人道。</p><p><img src="http://wx2.sinaimg.cn/mw690/9b6450acgy1fg7u1wwjvqj21kw16o7wh.jpg" alt=""></p><h3 id="回程"><a href="#回程" class="headerlink" title="回程"></a>回程</h3><p>大家好像不想久留，即使星期一因为 Memorial Day 放假，还是迫不及待地坐星期六晚上 21:51 的 UA784 赶回来。回来路上给车加了油，还回 Hertz，坐摆渡车到了候机楼。星期天早上迎着朝阳回到 IAD，各自回家睡了一天懒觉。</p><h2 id="账务估计"><a href="#账务估计" class="headerlink" title="账务估计"></a>账务估计</h2><table><thead><tr><th style="text-align:center">项目</th><th style="text-align:center">金额</th></tr></thead><tbody><tr><td style="text-align:center">机票</td><td style="text-align:center">2569.60</td></tr><tr><td style="text-align:center">酒店</td><td style="text-align:center">369.58</td></tr><tr><td style="text-align:center">租车</td><td style="text-align:center">35.52</td></tr><tr><td style="text-align:center">报名</td><td style="text-align:center">200</td></tr><tr><td style="text-align:center">餐食</td><td style="text-align:center">??</td></tr><tr><td style="text-align:center">总计</td><td style="text-align:center">3164.7</td></tr><tr><td style="text-align:center">平坦</td><td style="text-align:center">1070</td></tr></tbody></table><h2 id="致谢"><a href="#致谢" class="headerlink" title="致谢"></a>致谢</h2><p>感谢 Justin 的妈妈及时给 Mr. Lau 发了封邮件说明情况。我相信没有她的帮助，就没有我们这次的旅程。以下是原文节选：</p><blockquote><p>Justin told me over the weekend that their group (Nithin Jonnalagadda, Zhiyu Zhu and Justin Li) has the opportunity to participate in this year’s ACSL All-Star Contest in southern California on May 27. I am very excited for them, and I think this is a very good experience for them to participate the activities outside school and see other students who share the same interest and passion with them from all over the country. </p><p>My husband will be happy to be the chaperone. I have already purchased the air tickets for the four of them, reserved the hotel rooms, and rented a car last night. I would like to know if there is anything else that needs to be done to participate in this event to represent Oakton High School (like certain forms, school permissions, etc.). </p><p>Last, I would like to thank you for acting as the group’s mentor and guiding them for the past two years. I am pretty sure they would not have been able to make it without your help. Looking forward to what these boys can achieve as they continue on!</p><footer><strong>Justin's Mom</strong><cite>An Email to Mr. Lau</cite></footer></blockquote><p>感谢 Mr. Lau 为我们积极沟通联系，以及平常上课时的认真负责。这次还真被他说中了，真没得奖。</p><p>另外感谢主办方代表 <a href="mailto:amcompsci@cox.net" target="_blank" rel="noopener">Mr. Tebrow</a> 在我们不代表学校的情况下网开一面；感谢 <a href="mailto:kickrg@gmail.com" target="_blank" rel="noopener">Mr. Kick</a> 及时告诉我们时间表。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;没想到在六月份去 WWDC 之前，5/27 号我还要先飞洛杉矶参加 &lt;a href=&quot;http://www.wixtest.acsl.org/all-star-contest-information&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;ACSL All-Star Contest&lt;/a&gt;。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="生活" scheme="https://ApolloZhu.github.io/categories/%E7%94%9F%E6%B4%BB/"/>
+    
+    
+      <category term="ACSL" scheme="https://ApolloZhu.github.io/tags/ACSL/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Exam Appendix -- Java Quick Reference</title>
+    <link href="https://ApolloZhu.github.io/2017/05/02/apcsa-appendix-b/"/>
+    <id>https://ApolloZhu.github.io/2017/05/02/apcsa-appendix-b/</id>
+    <published>2017-05-02T01:05:54.000Z</published>
+    <updated>2018-01-14T05:28:52.791Z</updated>
+    
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>Accessible methods from the Java library that may be included on the exam</p><a id="more"></a><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">java</span>.<span class="title">lang</span>.<span class="title">Object</span> </span>&#123;</div><div class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object other)</span></span>;</div><div class="line"><span class="function">String <span class="title">toString</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">java</span>.<span class="title">lang</span>.<span class="title">Integer</span> </span>&#123;</div><div class="line">Integer(<span class="keyword">int</span> value);</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">intValue</span><span class="params">()</span></span>;</div><div class="line"><span class="comment">/** Minimum value represented by an `int` or `Integer`. */</span></div><div class="line"><span class="keyword">static</span> <span class="keyword">int</span> MIN_VALUE;</div><div class="line"><span class="comment">/** Maximum value represented by an `int` or `Integer`. */</span></div><div class="line"><span class="keyword">static</span> <span class="keyword">int</span> MAX_VALUE;</div><div class="line">&#125;</div></pre></td></tr></table></figure><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">java</span>.<span class="title">lang</span>.<span class="title">Double</span> </span>&#123;</div><div class="line">Double(<span class="keyword">double</span> value);</div><div class="line"><span class="function"><span class="keyword">double</span> <span class="title">doubleValue</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">java</span>.<span class="title">lang</span>.<span class="title">String</span> <span class="keyword">implements</span> <span class="title">java</span>.<span class="title">lang</span>.<span class="title">Comparable</span>&lt;<span class="title">String</span>&gt; </span>&#123;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">length</span><span class="params">()</span></span>;</div><div class="line"><span class="comment">/** <span class="doctag">@return</span> the substring beginning at `from` and ending at `to-1`. Note: the substring has length of `to - from`.*/</span></div><div class="line"><span class="function">String <span class="title">substring</span><span class="params">(<span class="keyword">int</span> from, <span class="keyword">int</span> to)</span></span>;</div><div class="line"><span class="comment">/** <span class="doctag">@return</span> `substring(from, length())`. */</span></div><div class="line"><span class="function">String <span class="title">substring</span><span class="params">(<span class="keyword">int</span> from)</span></span>;</div><div class="line"><span class="comment">/** <span class="doctag">@return</span> the index of the first occurrence of `str`; -1 if not found. */</span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">indexOf</span><span class="params">(String str)</span></span>;</div><div class="line"><span class="comment">/** <span class="doctag">@return</span> value &lt; 0 if `this` less than `other`; 0 if equals to `other`; &gt; 0 if greater than `other`. Note: According to ACSII. */</span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">compareTo</span><span class="params">(String other)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">java</span>.<span class="title">lang</span>.<span class="title">Math</span> </span>&#123;</div><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">abs</span><span class="params">(<span class="keyword">int</span> x)</span></span>;</div><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">double</span> <span class="title">abs</span><span class="params">(<span class="keyword">double</span> x)</span></span>;</div><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">double</span> <span class="title">pow</span><span class="params">(<span class="keyword">double</span> base, <span class="keyword">double</span> exponent)</span></span>;</div><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">double</span> <span class="title">sqrt</span><span class="params">(<span class="keyword">double</span> x)</span></span>;</div><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">double</span> <span class="title">random</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">interface</span> <span class="title">java</span>.<span class="title">util</span>.<span class="title">List</span>&lt;<span class="title">E</span>&gt; </span>&#123;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">size</span><span class="params">()</span></span>;</div><div class="line"><span class="comment">/** Appends obj to end of list.<span class="doctag">@return</span> `true` Note: only if operation allowed, such as always true for `ArrayList`. */</span></div><div class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E obj)</span></span>;</div><div class="line"><span class="comment">/** Inserts `obj` at position `index`, for 0 ≤ `index` ≤ `size()`. */</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> index, E obj)</span></span></div><div class="line">E <span class="title">get</span><span class="params">(<span class="keyword">int</span> index)</span>;</div><div class="line"><span class="comment">/** Replaces the element at position `index` with `obj`. <span class="doctag">@return</span> the element formerly at the specified position. */</span></div><div class="line"><span class="function">E <span class="title">set</span><span class="params">(<span class="keyword">int</span> index, E obj)</span></span>;</div><div class="line"><span class="comment">/** Removes element from position `index`, moving elements at position `index + 1` and higher to the left by 1 (subtracts 1 from their indices) and adjusts size. <span class="doctag">@return</span> the element formerly at the specified position. */</span></div><div class="line"><span class="function">E <span class="title">remove</span><span class="params">(<span class="keyword">int</span> index)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">java</span>.<span class="title">util</span>.<span class="title">ArrayList</span>&lt;<span class="title">E</span>&gt; <span class="keyword">implements</span> <span class="title">java</span>.<span class="title">util</span>.<span class="title">List</span>&lt;<span class="title">E</span>&gt; </span>&#123; &#125;</div></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Accessible methods from the Java library that may be included on the exam&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="编程" scheme="https://ApolloZhu.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="English" scheme="https://ApolloZhu.github.io/tags/English/"/>
+    
+      <category term="Java" scheme="https://ApolloZhu.github.io/tags/Java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>WWDC17 准备记录</title>
+    <link href="https://ApolloZhu.github.io/2017/04/23/wwdc17-preparation/"/>
+    <id>https://ApolloZhu.github.io/2017/04/23/wwdc17-preparation/</id>
+    <published>2017-04-23T00:23:14.000Z</published>
+    <updated>2018-01-14T05:28:52.795Z</updated>
+    
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>今年被选为了 Scholar，记录一下各种事宜，方便下次（如果还有的话）参考。没选中的同学们再接再厉，明年还有机会。我觉得最好不要像<a href="https://forums.developer.apple.com/thread/76431" target="_blank" rel="noopener">这个同学这样</a>在<a href="https://forums.developer.apple.com/community/other/wwdc17-scholarships/" target="_blank" rel="noopener">论坛</a>里发牢骚和冷嘲热讽还不提供证据，终究只会给苹果留下坏印象，偷鸡不成蚀把米。</p><a id="more"></a><h2 id="公开宣布"><a href="#公开宣布" class="headerlink" title="公开宣布"></a>公开宣布</h2><p>得奖了当然是要到各个平台宣传啊！这样说不定能正好找到一起去的小伙伴呢，比如今年就建了一个 “WWDC2017中国春游团”。</p><ul><li>QQ 说说</li><li>微信朋友圈</li><li>Facebook</li><li>微博 <a href="https://huati.weibo.com/k/WWDC" target="_blank" rel="noopener"><code>#WWDC#</code></a></li><li>Twitter <a href="https://twitter.com/hashtag/WWDCScholars" target="_blank" rel="noopener"><code>#WWDCScholars</code></a> <a href="https://twitter.com/hashtag/WWDC17" target="_blank" rel="noopener"><code>#WWDC17</code></a></li><li>通报学校，互惠共赢</li></ul><h2 id="接受奖项"><a href="#接受奖项" class="headerlink" title="接受奖项"></a>接受奖项</h2><p>公布结果那天（4/22）有空就在刷邮件，然后就看到了</p><p><img src="http://wx3.sinaimg.cn/mw690/9b6450acgy1feuvehykdoj20km0eddkk.jpg" alt=""></p><p>点 Accept Your Scholarship，会跳到苹果开发者官网，然后全选 Yes。最后 Optional 的那个应该是某个报刊杂志的采访吧，官网也不好看，没勾。</p><p>更具你接受的时间，这个神奇的 <a href="https://developer.apple.com/account/#/events" target="_blank" rel="noopener">Events Tab</a> 出现时机也不同。我是晚了一个小时，结果等了两天。其实这个票也就是看着安心，因为现在你并不能对它做什么。</p><p><img src="http://wx4.sinaimg.cn/mw1024/9b6450acgy1feyhouy306j20zk0m8q4r.jpg" alt=""></p><h2 id="行程计划"><a href="#行程计划" class="headerlink" title="行程计划"></a>行程计划</h2><p>完了之后苹果会再来一封邮件，包含了住宿信息，这个时候就可以开始计划了。今年（2017）是在 San Jose State University Campus Village 2，6月3日入住，6月10日退房。附近的机场可以参考苹果的<a href="https://developer.apple.com/wwdc/attending/" target="_blank" rel="noopener">旅行建议</a>，但是机票和到达之后到宿舍的过程就需要自己计划了。虽然也可以申请 travel assistant，让苹果付钱，不过这个机会还是给更需要帮助的人吧。</p><p>群里正好遇到一个同在 VA 的同志，他准备从 BWI 飞 OAK。便宜是便宜，100 多美金，但是我看是下午的航班，五点半到，之后再是两个小时的 Bart，而且我这边早上也要先去巴尔的摩，觉得有些麻烦，很遗憾不能通行。但也因此我才发现 Google 机票查询支持多个机场同时考虑，重新制定了计划。</p><p>目前大致计划如下，早上七点过 Virgin 的航班从 IAD 飞 SFO，十点过到了之后去 Stanford 逛一圈，之后再去宿舍。之前有幸认识到了一个斯坦福的学生，刚刚发了邮件，正在等待回复来决定最后的计划。[5/23 更新]：斯坦福好像把外部的邮箱都屏蔽了…</p><table><thead><tr><th style="text-align:center">航空公司</th><th style="text-align:right">航班号</th><th>时间</th><th style="text-align:center">价格</th></tr></thead><tbody><tr><td style="text-align:center">Virgin</td><td style="text-align:right">VX67</td><td>7:20-10:05</td><td style="text-align:center">228.2</td></tr><tr><td style="text-align:center">American</td><td style="text-align:right">UA517</td><td>14:55-23:05</td><td style="text-align:center">265.2</td></tr></tbody></table><h2 id="Badge"><a href="#Badge" class="headerlink" title="Badge"></a>Badge</h2><p>5/23 发了一封邮件链接到 <a href="https://developer.apple.com/wwdc/attending/get-ready/#!/" target="_blank" rel="noopener">Get Ready for WWDC.</a> 这个页面上可以更改挂牌上面的名字（昵称）和填写应急联系人的信息。</p><h2 id="家长许可"><a href="#家长许可" class="headerlink" title="家长许可"></a>家长许可</h2><p>针对未成年人有个特殊要求，就是家长需要签署的 <a href="https://developer.apple.com/wwdc/agreement/parent/WWDC_Permission_Statement_NoGuardian.pdf" target="_blank" rel="noopener">WWDC 2017 Permission Statement</a>。<a href="https://forums.developer.apple.com/thread/76578" target="_blank" rel="noopener">论坛里也有人在问</a>，结果也没人回答，最后 5/18 号左右才开始打电话。我可能手机关机没接上，苹果直接给家长打过去了。主要就是问问家长去不去，为什么，不去的话让家长放心一类的。最后说要发封<a href="https://developer.apple.com/wwdc/agreement/parent/" target="_blank" rel="noopener">邮件</a>，等到 25 号才来。主要就是填个紧急联系信息，同意 “出了事苹果不负责，熊孩子搞事请走人” 的条款。</p><h2 id="最后确认"><a href="#最后确认" class="headerlink" title="最后确认"></a>最后确认</h2><p>开会前的周二伴随着新版的 WWDC App，苹果发来了通知书，再次强调了些重要的事项。这个时候就可以把 Badge 添加到 Wallet 里了。周四旅行社发来邮件，要家长和我同意各种事项，把签好字的发回去。</p><div class="note warning"><h2 id="未完待续"><a href="#未完待续" class="headerlink" title="未完待续"></a>未完待续</h2><p>接下来的内容，请关注 <a href="/tags/WWDC17/">WWDC 系列</a></p></div><hr><h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><h3 id="没收到确认邮件？"><a href="#没收到确认邮件？" class="headerlink" title="没收到确认邮件？"></a>没收到确认邮件？</h3><ol><li>检查垃圾邮件</li><li>如果开发者账号是 iCloud 账号，到苹果开发者官网去领（这是个 Bug）</li><li>发邮件问苹果什么情况</li></ol><h3 id="我之前抽奖买的票怎么办？"><a href="#我之前抽奖买的票怎么办？" class="headerlink" title="我之前抽奖买的票怎么办？"></a>我之前抽奖买的票怎么办？</h3><p>听别人说可以退，发邮件给苹果说明情况，会帮你解决的。当然也有人选择给女朋友（当然你要先有一个女朋友）。虽然一般来说是不能转让的，比如奖学金的票就肯定不能转，但是苹果允许在通知它以后把自己买的票在团队里用。</p><blockquote><p>Tickets may not be sold, resold, bartered, auctioned, or transferred in any way. As an exception to the foregoing, requests to transfer tickets among eligible members of the same team may be submitted to Apple for consideration at <a href="mailto:wwdc@apple.com" target="_blank" rel="noopener">wwdc@apple.com</a>. Apple reserves the right to reject any transfer requests.</p><footer><strong>Apple</strong><cite><a href="https://developer.apple.com/wwdc/policy/" target="_blank" rel="noopener">WWDC 2017 Registration and Attendance Policy</a></cite></footer></blockquote><h2 id="记趣"><a href="#记趣" class="headerlink" title="记趣"></a>记趣</h2><blockquote><p>除了上面这个，所有二级标题都是四个字</p></blockquote><h3 id="Xcode-8-3-的-Bug"><a href="#Xcode-8-3-的-Bug" class="headerlink" title="Xcode 8.3 的 Bug"></a>Xcode 8.3 的 Bug</h3><p>就是在交稿之前发布的新版本，偏偏 Playground 出了问题，论坛赶紧发布<a href="https://forums.developer.apple.com/message/219665#219665" target="_blank" rel="noopener">补救措施</a></p><h3 id="夭折的旅行计划-V1"><a href="#夭折的旅行计划-V1" class="headerlink" title="夭折的旅行计划 V1"></a>夭折的旅行计划 V1</h3><p>因为OAK 和 SFO 都太远了，人生地不熟，而且也都没有直飞，当时就选择 IAD 到 SJC 机场。</p><table><thead><tr><th>航空公司</th><th style="text-align:right">航班号</th><th>时间</th><th style="text-align:center">中转机场</th><th style="text-align:right">第二段航班号</th><th>时间</th><th style="text-align:right">备选航班号</th><th>时间</th><th style="text-align:center">价格</th></tr></thead><tbody><tr><td>Delta</td><td style="text-align:right">2240</td><td>7:25-10:13</td><td style="text-align:center">SLC</td><td style="text-align:right">2045</td><td>11:15-12:13</td><td style="text-align:right">875</td><td>15:10-16:06</td><td style="text-align:center">212</td></tr><tr><td>American</td><td style="text-align:right">2569</td><td>7:20-9:29</td><td style="text-align:center">DFW</td><td style="text-align:right">103</td><td>11:10-12:47</td><td style="text-align:right">1039</td><td>17:20-18:52</td><td style="text-align:center">284</td></tr></tbody></table><p>落地之后 2 美元到校园。但是好像同一辆 Bus 有两种开法，到时候看吧。反正到了都要走路，时间也相差不大。</p><ul><li>Airport terminal A<ul><li>Caltrain 10<ul><li>Metro Light Rail Station<ul><li>地铁 901/902<ul><li>San Antonio South</li></ul></li></ul></li><li>Santa Clara Transit Center<ul><li>Caltrain 22<ul><li>E Santa Clara &amp; S Seventh</li></ul></li></ul></li></ul></li></ul></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;今年被选为了 Scholar，记录一下各种事宜，方便下次（如果还有的话）参考。没选中的同学们再接再厉，明年还有机会。我觉得最好不要像&lt;a href=&quot;https://forums.developer.apple.com/thread/76431&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;这个同学这样&lt;/a&gt;在&lt;a href=&quot;https://forums.developer.apple.com/community/other/wwdc17-scholarships/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;论坛&lt;/a&gt;里发牢骚和冷嘲热讽还不提供证据，终究只会给苹果留下坏印象，偷鸡不成蚀把米。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="WWDC" scheme="https://ApolloZhu.github.io/categories/WWDC/"/>
+    
+    
+      <category term="WWDC17" scheme="https://ApolloZhu.github.io/tags/WWDC17/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>WWDC17 奖学金项目</title>
+    <link href="https://ApolloZhu.github.io/2017/04/03/wwdc17-scholarship/"/>
+    <id>https://ApolloZhu.github.io/2017/04/03/wwdc17-scholarship/</id>
+    <published>2017-04-03T00:26:53.000Z</published>
+    <updated>2018-01-14T05:28:52.795Z</updated>
+    
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p><img src="https://cloud.githubusercontent.com/assets/10842684/24595546/7968d9de-1805-11e7-9283-df85393876c5.png" alt=""></p><p>老实交代，真的是最后几分钟交上去的，紧张的不得了。提交的时候还出了错，让重新登录账号，重新输入信息。那个时候整个人都是慌的，成功提交完了之后人都还在发抖。最后竟然选中了，算是了却了个多年（那个，你又没活那么久）的心愿吧，欣喜如狂。</p><a id="more"></a><p>看到 WWDC 的新闻出来了，马上就去看今年 Scholarship 的题目。本来都觉得自己没什么好 App 不准备参加的，结果今年苹果不按套路出牌，不交 app，交 playground。想起来之前有个没有完全实现的 <a href="https://github.com/ApolloZhu/Swifty-Karel" target="_blank" rel="noopener">Swifty Karel</a> 可以用，正好 playground 还能帮我解决编译的问题。</p><p>Karel 是斯坦福 <a href="https://web.stanford.edu/class/cs106a/" target="_blank" rel="noopener">CS106A</a> 课程很早开始就用来引导学生学习 Java 的工具，<a href="https://web.stanford.edu/class/cs106a/resources/karel-the-robot-learns-java.pdf" target="_blank" rel="noopener">Karel the Robot Learns Java</a> 一书中有比较全面的介绍。感觉和 Swift Playgrounds 教程几乎没有区别；唯一区别就是，一个是萌萌哒的 3D，一个是像素风的 2D。</p><h2 id="改进"><a href="#改进" class="headerlink" title="改进"></a>改进</h2><p>最后因为时间不够了，其实交上去的 playground 并不算美观，除非 Apple（让我）继续改进，就算选中也不可能拿去展示。我们先来定个小目标，列个<a href="https://github.com/ApolloZhu/Swifty-Karel/issues/1" target="_blank" rel="noopener">改进清单</a>：</p><ul><li style="list-style: none"><input type="checkbox" checked> 基本函数介绍</li><li style="list-style: none"><input type="checkbox" checked> <code>Playground.current</code> 的配置</li><li style="list-style: none"><input type="checkbox" checked> 自定义 <code>ColorScheme</code></li><li style="list-style: none"><input type="checkbox" checked> <code>Playground.current</code> 的导出</li><li style="list-style: none"><input type="checkbox" checked> 首页 <code>&quot;Hello WWDC17&quot;</code></li><li style="list-style: none"><input type="checkbox" checked> 斯坦福 pdf 里的案例</li><li style="list-style: none"><input type="checkbox"> TOC，页眉页脚，LICENSE</li><li style="list-style: none"><input type="checkbox"> README</li></ul><h2 id="忏悔"><a href="#忏悔" class="headerlink" title="忏悔"></a>忏悔</h2><p>因为对 SpriteKit 一点也不熟悉，只好用 UIView 和 Timer 来搞动画。其实如果有空可以熟悉一下游戏引擎。之前因为宣誓尽量不开发游戏，加上尝试 SpriteKit 受挫，基本就没动过。现在看来游戏引擎也不是只能开发游戏，还能作为一种展示 UI 的手段。不过改为用 SpriteKit 实现只怕是劳神费力，除非有什么要紧的 bug，否则多半是不会考虑的。</p><p>说实话现在还有个不怎么起眼的 bug。因为乱用 Singleton，导致现在 WorldModel 不走 liveView 都展示不出 Karel 来。希望能在写 README 之前解决这个问题。</p><h2 id="致谢"><a href="#致谢" class="headerlink" title="致谢"></a>致谢</h2><p>谢谢初中的徐喜元老师当年破例让我在 NOIP 竞赛班旁听；谢谢老司机 JD 同学领我入门，时刻激励着我不断学习；谢谢父母对我编程的支持。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;https://cloud.githubusercontent.com/assets/10842684/24595546/7968d9de-1805-11e7-9283-df85393876c5.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;老实交代，真的是最后几分钟交上去的，紧张的不得了。提交的时候还出了错，让重新登录账号，重新输入信息。那个时候整个人都是慌的，成功提交完了之后人都还在发抖。最后竟然选中了，算是了却了个多年（那个，你又没活那么久）的心愿吧，欣喜如狂。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="WWDC" scheme="https://ApolloZhu.github.io/categories/WWDC/"/>
+    
+    
+      <category term="WWDC17" scheme="https://ApolloZhu.github.io/tags/WWDC17/"/>
+    
+      <category term="Swift" scheme="https://ApolloZhu.github.io/tags/Swift/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>近血亲，越血腥</title>
+    <link href="https://ApolloZhu.github.io/2017/03/24/bloody-blood/"/>
+    <id>https://ApolloZhu.github.io/2017/03/24/bloody-blood/</id>
+    <published>2017-03-24T10:05:39.000Z</published>
+    <updated>2018-01-14T05:28:52.791Z</updated>
+    
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><blockquote><p>The near in blood, the nearer bloody.</p><footer><strong>William Shakespeare</strong><cite>Macbeth</cite></footer></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;script src=&quot;/assets/js/APlayer.min.js&quot;&gt; &lt;/script&gt;&lt;blockquote&gt;&lt;p&gt;The near in blood, the nearer bloody.&lt;/p&gt;
+&lt;footer&gt;&lt;strong&gt;William Shakespea
+      
+    
+    </summary>
+    
+      <category term="摘录" scheme="https://ApolloZhu.github.io/categories/%E6%91%98%E5%BD%95/"/>
+    
+    
+      <category term="literature" scheme="https://ApolloZhu.github.io/tags/literature/"/>
+    
+      <category term="translation" scheme="https://ApolloZhu.github.io/tags/translation/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>笑里藏刀</title>
+    <link href="https://ApolloZhu.github.io/2017/03/24/daggers-in-smiles/"/>
+    <id>https://ApolloZhu.github.io/2017/03/24/daggers-in-smiles/</id>
+    <published>2017-03-24T10:05:08.000Z</published>
+    <updated>2018-01-14T05:28:52.791Z</updated>
+    
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><blockquote><p>There’s daggers in men’s smiles.</p><footer><strong>William Shakespeare</strong><cite>Macbeth</cite></footer></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;script src=&quot;/assets/js/APlayer.min.js&quot;&gt; &lt;/script&gt;&lt;blockquote&gt;&lt;p&gt;There’s daggers in men’s smiles.&lt;/p&gt;
+&lt;footer&gt;&lt;strong&gt;William Shakespeare&lt;/s
+      
+    
+    </summary>
+    
+      <category term="摘录" scheme="https://ApolloZhu.github.io/categories/%E6%91%98%E5%BD%95/"/>
+    
+    
+      <category term="literature" scheme="https://ApolloZhu.github.io/tags/literature/"/>
+    
+      <category term="translation" scheme="https://ApolloZhu.github.io/tags/translation/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>macOS 下编译Synergy</title>
+    <link href="https://ApolloZhu.github.io/2017/03/23/building-synergy/"/>
+    <id>https://ApolloZhu.github.io/2017/03/23/building-synergy/</id>
+    <published>2017-03-23T18:06:04.000Z</published>
+    <updated>2018-01-14T05:28:52.791Z</updated>
+    
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p><a href="https://symless.com/synergy" target="_blank" rel="noopener">Synergy</a> 是一款跨平台多电脑共享一套鼠标键盘的利器，可惜正常下载要收费。曾经有段时间可以免费下<a href="https://symless.com/nightly" target="_blank" rel="noopener">内测版</a>，但是现在也不行了。不过作为<a href="https://github.com/symless/synergy" target="_blank" rel="noopener">开源</a>软件，我们可以自己编译。此编译指南<strong>应该</strong>适用于 macOS 10.10 及以上，但是<strong><em>就算编译正常，还是什么都显示不出来</em></strong>。</p><a id="more"></a><h2 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h2><ol><li>安装 <a href="https://brew.sh/" target="_blank" rel="noopener">Homebrew</a></li><li>从 Mac App Store 下载 <a href="https://itunes.apple.com/us/app/xcode/id497799835" target="_blank" rel="noopener">Xcode</a><ol><li>打开 Xcode, 选择菜单栏中的 Xcode &gt; Preferences &gt; Locations</li><li>在 Command Line Tools 中选择一个版本</li></ol></li><li>安装 cmake, qt5<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">brew install cmake</div><div class="line">brew install qt5</div></pre></td></tr></table></figure></li></ol><h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><ol><li><p>下载 synergy</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="built_in">clone</span> https://github.com/symless/synergy.git;<span class="built_in">cd</span> synergy</div></pre></td></tr></table></figure></li><li><p>修正 <code>ext/toolchain/commands1.py</code> 文件中的 <a href="https://github.com/symless/synergy/issues/4572" target="_blank" rel="noopener">bug</a> 和 <a href="https://github.com/symless/synergy/pull/5826" target="_blank" rel="noopener">bug</a></p><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sed -i <span class="string">""</span> <span class="string">"s:frameworkRootDir = .*$:frameworkRootDir = \"<span class="variable">$(which qmake | sed "s/bin.*$/Frameworks/")</span>\":"</span> ext/toolchain/commands1.py</div><div class="line"></div><div class="line">sed -i <span class="string">""</span> <span class="string">"s:Contents/Info.plist:Resources/Info.plist:"</span> ext/toolchain/commands1.py</div><div class="line">sed -i <span class="string">""</span> <span class="string">"/self.move/d"</span> ext/toolchain/commands1.py</div></pre></td></tr></table></figure></li><li><p>配置参数</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./hm.sh conf -g2 --mac-sdk $(sw_vers -productVersion | sed <span class="string">'s/.\d*.$//'</span>) --mac-identity <span class="built_in">test</span></div></pre></td></tr></table></figure></li><li><p>编译</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./hm.sh build</div></pre></td></tr></table></figure></li><li><p>移动到 Applications 文件夹</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mv bin/Release/Synergy.app /Applications/Synergy.app</div></pre></td></tr></table></figure></li><li><p>删除原文件</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> ..;rm -rf synergy</div></pre></td></tr></table></figure></li></ol><hr><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol><li><a href="https://github.com/symless/synergy/wiki/Compiling#Mac_OS_X_1010_and_above" target="_blank" rel="noopener">Synergy compile instructions</a></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;a href=&quot;https://symless.com/synergy&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Synergy&lt;/a&gt; 是一款跨平台多电脑共享一套鼠标键盘的利器，可惜正常下载要收费。曾经有段时间可以免费下&lt;a href=&quot;https://symless.com/nightly&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;内测版&lt;/a&gt;，但是现在也不行了。不过作为&lt;a href=&quot;https://github.com/symless/synergy&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;开源&lt;/a&gt;软件，我们可以自己编译。此编译指南&lt;strong&gt;应该&lt;/strong&gt;适用于 macOS 10.10 及以上，但是&lt;strong&gt;&lt;em&gt;就算编译正常，还是什么都显示不出来&lt;/em&gt;&lt;/strong&gt;。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="瞎捣鼓" scheme="https://ApolloZhu.github.io/categories/%E7%9E%8E%E6%8D%A3%E9%BC%93/"/>
+    
+    
+      <category term="tips" scheme="https://ApolloZhu.github.io/tags/tips/"/>
+    
+      <category term="macOS" scheme="https://ApolloZhu.github.io/tags/macOS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>排序算法</title>
+    <link href="https://ApolloZhu.github.io/2017/03/20/sorting-algorithm/"/>
+    <id>https://ApolloZhu.github.io/2017/03/20/sorting-algorithm/</id>
+    <published>2017-03-20T11:14:39.000Z</published>
+    <updated>2018-01-14T05:28:52.795Z</updated>
+    
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>目前包括：选择排序，插入排序，归并排序</p><p>情景：将数组 a 中的 n 个整数从小到大排序</p><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span>[] a;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span>[] a, <span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> temp = a[i];</div><div class="line">        a[i] = a[j];</div><div class="line">        a[j] = temp;</div><div class="line">&#125;</div></pre></td></tr></table></figure><a id="more"></a><h2 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h2><p>比较次数：n(n-1)/2</p><p>时间复杂度：O(n^2)</p><h3 id="选择最小"><a href="#选择最小" class="headerlink" title="选择最小"></a>选择最小</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;a.length-<span class="number">1</span>;i++) &#123;</div><div class="line">    <span class="keyword">int</span> minIndex = i;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j=i+<span class="number">1</span>;j&lt;a.length;j++)</div><div class="line">        <span class="keyword">if</span> (a[j] &lt; a[minIndex])</div><div class="line">            minIndex = j;</div><div class="line">    swap(a, minIndex, i);</div><div class="line">&#125;</div></pre></td></tr></table></figure><h3 id="选择最大"><a href="#选择最大" class="headerlink" title="选择最大"></a>选择最大</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;a.length-<span class="number">1</span>;i++) &#123;</div><div class="line">    <span class="keyword">int</span> maxIndex = i;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;a.length-i;j++)</div><div class="line">        <span class="keyword">if</span> (a[j] &gt; a[maxIndex])</div><div class="line">            maxIndex = j;</div><div class="line">    swap(a, maxIndex, i);</div><div class="line">&#125;</div></pre></td></tr></table></figure><h2 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h2><p>时间复杂度：O(n^2)</p><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;a.length;i++) &#123;</div><div class="line">    <span class="keyword">int</span> cur = a[i], newIdx = i;</div><div class="line">    <span class="keyword">while</span> (newIdx &gt; <span class="number">0</span> &amp;&amp; a[newIdx-<span class="number">1</span>] &gt; cur)</div><div class="line">        a[newIdx] = a[--newIdx];</div><div class="line">    a[newIdx] = cur;</div><div class="line">&#125;</div></pre></td></tr></table></figure><h2 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h2><p>时间复杂度：O(nlogn)</p><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">mergeSort</span><span class="params">(<span class="keyword">int</span>[] a)</span> </span>&#123;</div><div class="line">    mergeSort(a, <span class="number">0</span>, a.length-<span class="number">1</span>);</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">mergeSort</span><span class="params">(<span class="keyword">int</span>[] a, <span class="keyword">int</span> start, <span class="keyword">int</span> end)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (start &gt;= end) <span class="keyword">return</span>;</div><div class="line">    </div><div class="line">    <span class="keyword">int</span> mid = (start+end)/<span class="number">2</span>,</div><div class="line">          i = start,</div><div class="line">          j = mid+<span class="number">1</span>,</div><div class="line">        len = end-start+<span class="number">1</span>,</div><div class="line">     temp[] = <span class="keyword">new</span> <span class="keyword">int</span>[len];</div><div class="line"></div><div class="line">    mergeSort(a, i, mid);</div><div class="line">    mergeSort(a, j, end);</div><div class="line"></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> k=<span class="number">0</span>;k&lt;len;k++)</div><div class="line">        <span class="keyword">if</span> (j&gt;end || i&lt;=mid &amp;&amp; a[i]&lt;a[j])</div><div class="line">            temp[k] = a[i++];</div><div class="line">        <span class="keyword">else</span></div><div class="line">            temp[k] = a[j++];</div><div class="line"></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> k=<span class="number">0</span>;k&lt;len;k++)</div><div class="line">        a[start+k] = temp[k];</div><div class="line">&#125;</div></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;目前包括：选择排序，插入排序，归并排序&lt;/p&gt;
+&lt;p&gt;情景：将数组 a 中的 n 个整数从小到大排序&lt;/p&gt;
+&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt;[] a;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;swap&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(&lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt;[] a, &lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; i, &lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; j)&lt;/span&gt; &lt;/span&gt;&amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; temp = a[i];&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;        a[i] = a[j];&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;        a[j] = temp;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&amp;#125;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+      <category term="编程" scheme="https://ApolloZhu.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="Java" scheme="https://ApolloZhu.github.io/tags/Java/"/>
+    
+      <category term="algorithm" scheme="https://ApolloZhu.github.io/tags/algorithm/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>APCSA 易错点整理</title>
+    <link href="https://ApolloZhu.github.io/2017/03/20/apcsa-traps/"/>
+    <id>https://ApolloZhu.github.io/2017/03/20/apcsa-traps/</id>
+    <published>2017-03-20T01:11:28.000Z</published>
+    <updated>2018-01-14T05:28:52.791Z</updated>
+    
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>本文不定期更新，预计 2017/5/2 停更<br>此文只包含对于本人来说死记硬背能提升做题速度的知识点，所有写过的代码见 <a href="https://github.com/ApolloZhu/APCSA" target="_blank" rel="noopener">APCSA</a></p><h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><blockquote><p>Q: A large Java program was tested extensively, and no errors were found. What can be concluded?</p><p>A: <strong>The program may have bugs.</strong></p></blockquote><a id="more"></a><p>Even after you tested –</p><ul><li>values from each range</li><li>all boundary values</li><li>values outside boundaries</li></ul><h2 id="读完-pre-post-condition"><a href="#读完-pre-post-condition" class="headerlink" title="读完 pre/post-condition"></a>读完 pre/post-condition</h2><p>这个要是读漏或者读错整个题都会错啊！而且很多时候可以简化代码，不用考虑那么全面。</p><h3 id="不要杞人忧天"><a href="#不要杞人忧天" class="headerlink" title="不要杞人忧天"></a>不要杞人忧天</h3><p>如果你是个非要用空格或是制表符的强迫症患者，这条一定要记住。对于我们这些完美主义者，就算题目给出的答案明显不可能完美地实现，但只要题目中说了 <strong>“implemented correctly”</strong>，请睁一只眼闭一只眼，千万不要和 College Board 计较。</p><h2 id="整数除法"><a href="#整数除法" class="headerlink" title="整数除法"></a>整数除法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">System.out.print(<span class="number">3</span>/<span class="number">4</span>); <span class="comment">// 1</span></div></pre></td></tr></table></figure><h2 id="四舍五入"><a href="#四舍五入" class="headerlink" title="四舍五入"></a>四舍五入</h2><p>强转 int 直接 truncate 小数部分，不分正负</p><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">round</span><span class="params">(<span class="keyword">double</span> num)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> (<span class="keyword">int</span>)(num + (num &gt; <span class="number">0</span> ? .<span class="number">5</span> : -.<span class="number">5</span>));</div><div class="line">&#125;</div></pre></td></tr></table></figure><hr><h1 id="常识"><a href="#常识" class="headerlink" title="常识"></a>常识</h1><h2 id="请在答案中使用这个函数的-flag"><a href="#请在答案中使用这个函数的-flag" class="headerlink" title="请在答案中使用这个函数的 flag"></a>请在答案中使用这个函数的 flag</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">aMethod</span><span class="params">()</span></span></div><div class="line">&#123; <span class="comment">/* implementation not shown */</span> &#125;</div></pre></td></tr></table></figure><h2 id="随机数"><a href="#随机数" class="headerlink" title="随机数"></a>随机数</h2><p><code>Math.random()</code> 返回 [0,1) 任一 <code>double</code></p><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function">E <span class="title">pick</span><span class="params">(E[] array)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> array[(<span class="keyword">int</span>)(Math.random()*array.length)];</div><div class="line">&#125;</div><div class="line"><span class="function">E <span class="title">pick</span><span class="params">(List&lt;E&gt; list)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> list.get((<span class="keyword">int</span>)(Math.random()*list.size()));</div><div class="line">&#125;</div></pre></td></tr></table></figure><h3 id="start-end-之间随机整数"><a href="#start-end-之间随机整数" class="headerlink" title="start - end 之间随机整数"></a>start - end 之间随机整数</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">random</span><span class="params">(<span class="keyword">int</span> start, <span class="keyword">int</span> end, <span class="keyword">boolean</span> includeEnd)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> (<span class="keyword">int</span>)(Math.random()*(end-start+(includeEnd?<span class="number">1</span>:<span class="number">0</span>))+start);</div><div class="line">&#125;</div></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;本文不定期更新，预计 2017/5/2 停更&lt;br&gt;此文只包含对于本人来说死记硬背能提升做题速度的知识点，所有写过的代码见 &lt;a href=&quot;https://github.com/ApolloZhu/APCSA&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;APCSA&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;测试&quot;&gt;&lt;a href=&quot;#测试&quot; class=&quot;headerlink&quot; title=&quot;测试&quot;&gt;&lt;/a&gt;测试&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;Q: A large Java program was tested extensively, and no errors were found. What can be concluded?&lt;/p&gt;
+&lt;p&gt;A: &lt;strong&gt;The program may have bugs.&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="编程" scheme="https://ApolloZhu.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="tips" scheme="https://ApolloZhu.github.io/tags/tips/"/>
+    
+      <category term="Java" scheme="https://ApolloZhu.github.io/tags/Java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Bilibili 和 网易云音乐的正确使用方法</title>
+    <link href="https://ApolloZhu.github.io/2017/03/19/bilibili-netease-relationship/"/>
+    <id>https://ApolloZhu.github.io/2017/03/19/bilibili-netease-relationship/</id>
+    <published>2017-03-19T00:27:06.000Z</published>
+    <updated>2018-01-14T05:28:52.791Z</updated>
+    
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><blockquote class="blockquote-center"><p>然而现在的情况是：我用网易云音乐找番，用bilibili找歌-_-||</p></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;script src=&quot;/assets/js/APlayer.min.js&quot;&gt; &lt;/script&gt;&lt;blockquote class=&quot;blockquote-center&quot;&gt;&lt;p&gt;然而现在的情况是：我用网易云音乐找番，用bilibili找歌-_-||&lt;/p&gt;
+&lt;/blockqu
+      
+    
+    </summary>
+    
+      <category term="摘录" scheme="https://ApolloZhu.github.io/categories/%E6%91%98%E5%BD%95/"/>
+    
+    
+      <category term="music" scheme="https://ApolloZhu.github.io/tags/music/"/>
+    
+      <category term="anime" scheme="https://ApolloZhu.github.io/tags/anime/"/>
+    
+      <category term="bilibili" scheme="https://ApolloZhu.github.io/tags/bilibili/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>macOS 重定向域名到 Hexo 本地服务器</title>
+    <link href="https://ApolloZhu.github.io/2017/03/18/redirecting-domain-to-local-hexo-server-on-macOS/"/>
+    <id>https://ApolloZhu.github.io/2017/03/18/redirecting-domain-to-local-hexo-server-on-macOS/</id>
+    <published>2017-03-18T16:36:34.000Z</published>
+    <updated>2018-01-14T05:28:52.795Z</updated>
+    
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>每次把网站截屏发朋友圈，被别人发现地址栏是 <code>localhost:4000</code>，稍微觉得有点 low。也是，怎么也得展示个像样点的域名吧。所以在网上查了查，整理收集如下。我对网络基本不了解，望各位路过的大神们指点一二。</p><a id="more"></a><h2 id="修改-hosts"><a href="#修改-hosts" class="headerlink" title="修改 hosts"></a>修改 hosts</h2><p>假设我们很有逼格的域名是 <code>example.com</code></p><p>通过 <code>/etc/hosts</code> 把 <code>example.com</code> 映射到 <code>10.0.0.1</code></p><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">10.0.0.1 example.com</div></pre></td></tr></table></figure><h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>一下步骤每次<strong>重启都要再执行一遍</strong></p><p>在回环接口（loopback interface）新建一个地址，<code>10.0.0.1</code></p><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo ifconfig lo0 <span class="built_in">alias</span> 10.0.0.1</div></pre></td></tr></table></figure><p><code>-e</code> 启动防火墙（Packet Filter），<code>-f</code> 载入后面的规则 —— 将所有到 <code>10.0.0.1:80</code>（HTTP 默认端口）的连接转发到 <code>127.0.0.1:4000</code>（hexo 默认本地服务器地址）</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">echo</span> <span class="string">"rdr pass on lo0 inet proto tcp from any to 10.0.0.1 port 80 -&gt; 127.0.0.1 port 4000"</span> | sudo pfctl -ef -</div></pre></td></tr></table></figure><p>完成，现在可以在浏览器中输入 <code>example.com</code> 来代替了！</p><hr><h2 id="还原"><a href="#还原" class="headerlink" title="还原"></a>还原</h2><p>重启电脑，或是</p><p>删除新建的地址，重置防火墙，清空本地 DNS 缓存</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo ifconfig lo0 -<span class="built_in">alias</span> 10.0.0.1</div><div class="line">sudo pfctl -F all -f /etc/pf.conf</div><div class="line">dscacheutil -flushcache</div></pre></td></tr></table></figure><hr><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol><li><a href="http://serverfault.com/questions/102416/iptables-equivalent-for-mac-os-x/" target="_blank" rel="noopener">iptables equivalent for mac os x - StackExchange</a></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;每次把网站截屏发朋友圈，被别人发现地址栏是 &lt;code&gt;localhost:4000&lt;/code&gt;，稍微觉得有点 low。也是，怎么也得展示个像样点的域名吧。所以在网上查了查，整理收集如下。我对网络基本不了解，望各位路过的大神们指点一二。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="瞎捣鼓" scheme="https://ApolloZhu.github.io/categories/%E7%9E%8E%E6%8D%A3%E9%BC%93/"/>
+    
+    
+      <category term="tips" scheme="https://ApolloZhu.github.io/tags/tips/"/>
+    
+      <category term="macOS" scheme="https://ApolloZhu.github.io/tags/macOS/"/>
+    
+      <category term="server" scheme="https://ApolloZhu.github.io/tags/server/"/>
+    
+      <category term="hexo" scheme="https://ApolloZhu.github.io/tags/hexo/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Yearglass／年轮项目</title>
+    <link href="https://ApolloZhu.github.io/2017/03/06/yearglass-project/"/>
+    <id>https://ApolloZhu.github.io/2017/03/06/yearglass-project/</id>
+    <published>2017-03-06T17:28:50.000Z</published>
+    <updated>2018-01-14T05:28:52.795Z</updated>
+    
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><blockquote class="blockquote-center"><p>愿能为君，暂留光阴</p><div id="yearglass-web"></div></blockquote><script>    const today = new Date();    const year = today.getFullYear();    const thisYear = new Date(year, 0, 1);    const nextYear = new Date(year + 1, 0, 1);    const oneDay = today.getMilliseconds();    const passed = Math.floor((today - thisYear) / oneDay);    const total = Math.floor((nextYear - thisYear) / oneDay);    const percentage = passed / total;    const space = 15;    function repeat(s, n) {        return new Array(Math.floor(n + 1)).join(s);    }    document.getElementById("yearglass-web").innerHTML = year + " 年已过去 " + Math.floor(percentage * 100) + "% [" + repeat("▇", space * percentage) + repeat("\\\\", space * (1 - percentage)) + "]";</script><p>For the English Version of this documentation, please visit: <a href="https://apollozhu.github.io/yearglass/">yearglass</a></p><a id="more"></a><p>在即刻／微博／推特上看到一个有趣的提醒，<a href="https://twitter.com/year_progress" target="_blank" rel="noopener">year_progress</a>，总的来说就是显示今年过去了的百分比。于是顺手就用 Swift 实现了一个终端的小程序：<a href="https://github.com/ApolloZhu/yearglass" target="_blank" rel="noopener">年轮</a>。发布的时候 2017 年才过去 17% 呢。</p><h2 id="基本"><a href="#基本" class="headerlink" title="基本"></a>基本</h2><h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="built_in">clone</span> https://github.com/ApolloZhu/yearglass.git</div></pre></td></tr></table></figure><h3 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> yearglass;git pull;<span class="built_in">cd</span> ..</div></pre></td></tr></table></figure><h3 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h3><p>卸载完成后还需手动删除配置，请参考下文。</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rm -rf yearglass</div></pre></td></tr></table></figure><h2 id="Terminal-配置"><a href="#Terminal-配置" class="headerlink" title="Terminal 配置"></a>Terminal 配置</h2><h3 id="加入到终端启动列表"><a href="#加入到终端启动列表" class="headerlink" title="加入到终端启动列表"></a>加入到终端启动列表</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">echo</span> <span class="string">"swift ~/yearglass/main.swift"</span> &gt;&gt; .bash_profile</div></pre></td></tr></table></figure><h3 id="注册-yearglass-命令"><a href="#注册-yearglass-命令" class="headerlink" title="注册 yearglass 命令"></a>注册 <code>yearglass</code> 命令</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">echo</span> <span class="string">"alias yearglass='swift ~/yearglass/main.swift'"</span> &gt;&gt; .bash_profile</div></pre></td></tr></table></figure><h3 id="删除配置"><a href="#删除配置" class="headerlink" title="删除配置"></a>删除配置</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sed -i <span class="string">''</span> <span class="string">'/swift .*yearglass.main.swift/d'</span> .bash_profile</div></pre></td></tr></table></figure><h2 id="Oh-My-Zsh-配置"><a href="#Oh-My-Zsh-配置" class="headerlink" title="Oh My Zsh 配置"></a>Oh My Zsh 配置</h2><p>本人并不了解 zsh 怎么用，如有疏漏还请大家指正。</p><h3 id="加入到终端启动列表-1"><a href="#加入到终端启动列表-1" class="headerlink" title="加入到终端启动列表"></a>加入到终端启动列表</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">echo</span> <span class="string">"swift ~/yearglass/main.swift"</span> &gt;&gt; .zshrc</div></pre></td></tr></table></figure><h3 id="注册-yearglass-命令-1"><a href="#注册-yearglass-命令-1" class="headerlink" title="注册 yearglass 命令"></a>注册 <code>yearglass</code> 命令</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">echo</span> <span class="string">"alias yearglass='swift ~/yearglass/main.swift'"</span> &gt;&gt; .zshrc</div></pre></td></tr></table></figure><h3 id="删除配置-1"><a href="#删除配置-1" class="headerlink" title="删除配置"></a>删除配置</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sed -i <span class="string">''</span> <span class="string">'/swift .*yearglass.main.swift/d'</span> .zshrc</div></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote class=&quot;blockquote-center&quot;&gt;&lt;p&gt;愿能为君，暂留光阴&lt;/p&gt;
+&lt;div id=&quot;yearglass-web&quot;&gt;&lt;/div&gt;&lt;/blockquote&gt;
+&lt;script&gt;
+    const today = new Date();
+    const year = today.getFullYear();
+    const thisYear = new Date(year, 0, 1);
+    const nextYear = new Date(year + 1, 0, 1);
+    const oneDay = today.getMilliseconds();
+    const passed = Math.floor((today - thisYear) / oneDay);
+    const total = Math.floor((nextYear - thisYear) / oneDay);
+    const percentage = passed / total;
+    const space = 15;
+
+    function repeat(s, n) {
+        return new Array(Math.floor(n + 1)).join(s);
+    }
+
+    document.getElementById(&quot;yearglass-web&quot;).innerHTML = year + &quot; 年已过去 &quot; + Math.floor(percentage * 100) + &quot;% [&quot; + repeat(&quot;▇&quot;, space * percentage) + repeat(&quot;\\\\&quot;, space * (1 - percentage)) + &quot;]&quot;;
+&lt;/script&gt;
+
+&lt;p&gt;For the English Version of this documentation, please visit: &lt;a href=&quot;https://apollozhu.github.io/yearglass/&quot;&gt;yearglass&lt;/a&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="瞎捣鼓" scheme="https://ApolloZhu.github.io/categories/%E7%9E%8E%E6%8D%A3%E9%BC%93/"/>
+    
+    
+      <category term="Swift" scheme="https://ApolloZhu.github.io/tags/Swift/"/>
+    
+      <category term="macOS" scheme="https://ApolloZhu.github.io/tags/macOS/"/>
+    
+      <category term="CLI" scheme="https://ApolloZhu.github.io/tags/CLI/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>在 Swift 工程中使用 OpenGL 框架 GLFW 的配置过程</title>
+    <link href="https://ApolloZhu.github.io/2016/11/14/configuring-glfw-for-Swift-in-Xcode/"/>
+    <id>https://ApolloZhu.github.io/2016/11/14/configuring-glfw-for-Swift-in-Xcode/</id>
+    <published>2016-11-14T11:08:55.000Z</published>
+    <updated>2018-01-14T05:28:52.791Z</updated>
+    
+    <content type="html"><![CDATA[<script src="/assets/js/APlayer.min.js"> </script><p>当初想要学 OpenGL，找到了一个使用 Swift 语言的教程 —— <a href="https://github.com/SwiftGL" target="_blank" rel="noopener">SwiftGL</a>，主要内容是使用 Swift 3 在 macOS Sierra (10.12) 上开发基于 glfw3 的 GUI 程序（虽然是通过命令行调起的）。可惜最后还是没能坚持下来，但当时摸爬滚打，翻了不少博客，甚至还差点把 SwiftGL 的库用 Swift 3 重写，最后才研究出来的出来的配置方法丢了就太可惜了，特此记录分享。</p><a id="more"></a><h2 id="编译-glfw"><a href="#编译-glfw" class="headerlink" title="编译 glfw"></a>编译 glfw</h2><ul><li>下载 <a href="https://codeload.github.com/glfw/glfw/zip/master" target="_blank" rel="noopener">GitHub 上的 glfw</a>，解压</li><li>打开 <a href="https://cmake.org/" target="_blank" rel="noopener">CMake</a> App 准备编译</li><li><em>Browse Source</em> 选择 <code>glfw-master</code></li><li><em>Browse Build</em> 随便选择一个临时的文件夹</li><li>点击 <em>Configure</em>, 从 <em>generator</em> 的下拉列表中的选择 <em>Xcode</em>，点击 <em>Done</em></li><li>CMake 处理完（Configuring done）之后再点一遍 <em>Configure</em></li><li>点击 <em>Generate</em>，点击 <em>Open Project</em></li><li>Xcode 中把 Scheme 换为 <code>install</code>，编译并运行</li></ul><h2 id="配置工程"><a href="#配置工程" class="headerlink" title="配置工程"></a>配置工程</h2><p>完成之后，打开自己的工程文件。</p><div class="note warning"><p>以下操作每个工程只需要 <strong><em>一次</em></strong>。加入的文件可以在 Target 之间共享。</p></div><ul><li>打开 Finder, <code>Shift</code>+<code>Command</code>+<code>G</code>，输入 <code>/usr/local/lib/libglfw3.a</code>，确认</li><li>把文件拖进工程<ul><li>copy items if needed</li><li>create groups</li><li>添加</li></ul></li></ul><div class="note danger"><p>针对每个工程中每个需要 <code>glfw</code> 的 Target，<strong><em>都需要</em></strong> 完成下面的步骤。</p></div><ul><li>切换到 <em>Build Settings</em>，搜索 <code>sea</code></li><li>把 <code>/usr/local/include</code> 添加到 <em>Header Search Paths</em></li><li>把 <code>/usr/local/lib</code> 添加到 <em>Library Search Paths</em></li><li>如果没有桥接头文件（Bridging Header），创建一个</li><li>把以下内容添加到桥接头文件中</li></ul><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;GLFW/glfw3.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;GLFW/glfw3native.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;GLKit/GLKit.h&gt;</span></span></div></pre></td></tr></table></figure><div class="note success"><p><code>glfw</code> 配置完毕，享受你 Swifty 的 OpenGL 之旅吧。</p></div>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;当初想要学 OpenGL，找到了一个使用 Swift 语言的教程 —— &lt;a href=&quot;https://github.com/SwiftGL&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;SwiftGL&lt;/a&gt;，主要内容是使用 Swift 3 在 macOS Sierra (10.12) 上开发基于 glfw3 的 GUI 程序（虽然是通过命令行调起的）。可惜最后还是没能坚持下来，但当时摸爬滚打，翻了不少博客，甚至还差点把 SwiftGL 的库用 Swift 3 重写，最后才研究出来的出来的配置方法丢了就太可惜了，特此记录分享。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="瞎捣鼓" scheme="https://ApolloZhu.github.io/categories/%E7%9E%8E%E6%8D%A3%E9%BC%93/"/>
+    
+    
+      <category term="tips" scheme="https://ApolloZhu.github.io/tags/tips/"/>
+    
+      <category term="Swift" scheme="https://ApolloZhu.github.io/tags/Swift/"/>
+    
+      <category term="macOS" scheme="https://ApolloZhu.github.io/tags/macOS/"/>
+    
+  </entry>
+  
+</feed>
